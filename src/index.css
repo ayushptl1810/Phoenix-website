@@ -1,1 +1,86 @@
 @import "tailwindcss";
+
+/* Font System Variables */
+:root {
+  /* --font-display: "Fraunces", serif; */
+  /* --font-body: "Lora", serif; */
+  --font-display: "Lora", serif;
+  --font-body: "Fraunces", serif;
+  --font-ui: "Satoshi", sans-serif;
+
+  /* Theme Colors */
+  --color-bg: #ffffff;
+  --color-fg: #0a0a0a;
+  --color-accent: #ff8c00; /* proper orange hex code */
+  --color-accent-contrast: #0a0a0a;
+}
+
+/* Font Utility Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-ui {
+  font-family: var(--font-ui);
+  font-weight: 800;
+}
+
+/* Theme Base */
+/* Minimal global base to let Tailwind drive styles */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+/* Text color helpers for Tailwind usage */
+.text-fg {
+  color: var(--color-fg);
+}
+
+.text-inverse {
+  color: var(--color-fg-inverse);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+/* Background color helpers */
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-accent-contrast {
+  background-color: var(--color-accent-contrast);
+}
+
+/* Button utilities */
+.btn-accent {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.btn-accent:hover {
+  filter: brightness(0.95);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
