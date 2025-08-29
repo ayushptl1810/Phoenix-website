@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import heroVideoUrl from "../../assets/hero.mp4";
 
 function HeroBackground() {
@@ -109,12 +110,48 @@ function HeroBackground() {
     };
   }, []);
 
+  // Animation variants
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const videoVariants = {
+    hidden: { scale: 1.1, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 2,
+        ease: "easeOut",
+        delay: 0.5,
+      },
+    },
+  };
+
+  const patternVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 0.1,
+      scale: 1,
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+        delay: 1,
+      },
+    },
+  };
+
   return (
-    <div
-      className="fixed inset-0 w-screen h-screen overflow-hidden -z-10"
-      aria-hidden
-    >
-      <video
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Video Background */}
+      <motion.video
         ref={videoRef}
         src={heroVideoUrl}
         playsInline
@@ -125,15 +162,35 @@ function HeroBackground() {
         controls={false}
         controlsList="nodownload nofullscreen noplaybackrate"
         disablePictureInPicture
+        variants={videoVariants}
+        initial="hidden"
+        animate="visible"
       />
+
       {/* Enhanced overlay for better text readability */}
-      <div
+      <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
             "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%)",
         }}
+        variants={overlayVariants}
+        initial="hidden"
+        animate="visible"
       />
+
+      {/* Animated geometric patterns */}
+      <motion.div
+        className="absolute inset-0"
+        variants={patternVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-24 h-24 border border-white/10 transform rotate-45 animate-pulse delay-1000"></div>
+        <div className="absolute bottom-32 left-32 w-16 h-16 bg-white/5 rounded-full animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-20 w-20 h-20 border border-white/10 rounded-full animate-pulse delay-1500"></div>
+      </motion.div>
     </div>
   );
 }

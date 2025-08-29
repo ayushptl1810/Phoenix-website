@@ -1,14 +1,86 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import Home from "./pages/Home";
+import Achievements from "./pages/Achievements";
 
-function App() {
+const App = () => {
+  const location = useLocation();
+
+  // Page transition variants
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+    },
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0,
+      y: -20,
+    },
+  };
+
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.3, // Faster transition to reduce flash
+  };
+
+  // Handle scroll to top during page transition
+  const handlePageChange = () => {
+    // Scroll to top during the fade animation
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50); // Small delay to let animation start
+  };
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<div>About</div>} />
-      <Route path="*" element={<div>404 - Not Found</div>} />
-    </Routes>
+    <div className="min-h-screen bg-gray-900">
+      {" "}
+      {/* Persistent dark background */}
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+        onExitComplete={handlePageChange}
+      >
+        <motion.div
+          key={location.pathname}
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransition}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route
+              path="*"
+              element={
+                <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+                  <div className="text-center">
+                    <h1 className="text-6xl font-bold text-orange-500 mb-4">
+                      404
+                    </h1>
+                    <p className="text-xl text-gray-300 mb-8">Page not found</p>
+                    <a
+                      href="/"
+                      className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                      Go Home
+                    </a>
+                  </div>
+                </div>
+              }
+            />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
-}
+};
 
 export default App;

@@ -7,6 +7,8 @@ import {
   FaClock,
 } from "react-icons/fa";
 import { GiLaurelCrown } from "react-icons/gi";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CompetitionsSection = () => {
   const competitions = [
@@ -59,6 +61,83 @@ const CompetitionsSection = () => {
   const totalCount = competitions.length;
   const progressPercentage = (completedCount / totalCount) * 100;
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+    hover: {
+      y: -10,
+      scale: 1.02,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const progressVariants = {
+    hidden: { width: 0 },
+    visible: {
+      width: `${progressPercentage}%`,
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+        delay: 0.5,
+      },
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 0.8,
+      },
+    },
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <section className="min-h-screen bg-gray-900 relative overflow-hidden">
       {/* Background Pattern */}
@@ -69,37 +148,72 @@ const CompetitionsSection = () => {
         <div className="absolute bottom-20 right-20 w-20 h-20 border border-[#ff8c00] rounded-full"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+      <motion.div
+        className="relative z-10 max-w-7xl mx-auto px-6 py-20"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
+        <motion.div className="text-center mb-8" variants={headerVariants}>
+          <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
             This Year's
             <span className="text-[#ff8c00]"> Competitions</span>
           </h2>
-          <p className="font-body text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="font-body text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             Showcasing our journey through innovation challenges and
             technological breakthroughs
           </p>
-        </div>
+          
+          {/* Progress Indicator */}
+          <div className="mt-8 max-w-md mx-auto">
+            <div className="flex justify-between text-sm text-gray-400 mb-2">
+              <span>Progress</span>
+              <span>{completedCount}/{totalCount} Completed</span>
+            </div>
+            <div className="w-full bg-gray-700 rounded-full h-2">
+              <motion.div
+                className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full"
+                variants={progressVariants}
+              ></motion.div>
+            </div>
+          </div>
+
+          <motion.div className="mt-6 flex justify-center" variants={buttonVariants}>
+            <Link
+              to="/achievements"
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/30 bg-black/20 backdrop-blur-md text-white hover:border-[#ff8c00] hover:bg-[#ff8c00]/10 transition-all duration-300 text-lg font-ui font-bold tracking-wide"
+            >
+              <div className="w-2 h-2 bg-[#ff8c00] rounded-full animate-pulse"></div>
+              View Achievements
+              <div className="w-2 h-2 bg-[#ff8c00] rounded-full animate-pulse"></div>
+            </Link>
+          </motion.div>
+        </motion.div>
 
         {/* Competitions Grid */}
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
-          {competitions.map((competition) => (
-            <div
+          {competitions.map((competition, index) => (
+            <motion.div
               key={competition.id}
-              className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:scale-105 ${
+              className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 ${
                 competition.status === "completed"
                   ? "bg-gradient-to-br from-green-900/20 to-emerald-800/20 border-green-500/30 hover:border-green-400/50"
                   : "bg-gradient-to-br from-blue-900/20 to-indigo-800/20 border-blue-500/30 hover:border-blue-400/50"
               }`}
+              variants={cardVariants}
+              whileHover="hover"
             >
               {/* Status Badge */}
-              <div
+              <motion.div
                 className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-ui font-bold ${
                   competition.status === "completed"
                     ? "bg-green-500/20 text-green-400 border border-green-400/30"
                     : "bg-blue-500/20 text-blue-400 border border-blue-400/30"
                 }`}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
               >
                 {competition.status === "completed" ? (
                   <span className="flex items-center space-x-1">
@@ -112,20 +226,26 @@ const CompetitionsSection = () => {
                     <span>Upcoming</span>
                   </span>
                 )}
-              </div>
+              </motion.div>
 
               {/* Content */}
               <div className="p-8">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div
+                <motion.div
+                  className="flex items-start space-x-4 mb-4"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.div
                     className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${
                       competition.status === "completed"
                         ? "bg-green-500/20 text-green-400"
                         : "bg-blue-500/20 text-blue-400"
                     }`}
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <competition.icon className="w-6 h-6" />
-                  </div>
+                  </motion.div>
                   <div className="flex-1">
                     <h3 className="font-display text-2xl font-bold text-white mb-2">
                       {competition.name}
@@ -137,7 +257,7 @@ const CompetitionsSection = () => {
                       <span>{competition.category}</span>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 <p className="font-body text-gray-300 mb-4 leading-relaxed">
                   {competition.description}
@@ -145,27 +265,34 @@ const CompetitionsSection = () => {
 
                 {/* Achievement Badge for Completed */}
                 {competition.achievement && (
-                  <div className="inline-flex items-center space-x-2 px-4 py-2 bg-green-500/20 border border-green-400/30 rounded-full">
+                  <motion.div
+                    className="inline-flex items-center space-x-2 px-4 py-2 bg-green-500/20 border border-green-400/30 rounded-full"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <GiLaurelCrown className="w-4 h-4 text-green-400" />
                     <span className="font-ui font-bold text-green-400 text-sm">
                       {competition.achievement}
                     </span>
-                  </div>
+                  </motion.div>
                 )}
               </div>
 
-              {/* Hover Glow Effect */}
-              <div
+              {/* Enhanced Hover Glow Effect */}
+              <motion.div
                 className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
                   competition.status === "completed"
-                    ? "bg-gradient-to-r from-green-500/5 to-emerald-500/5"
-                    : "bg-gradient-to-r from-blue-500/5 to-indigo-500/5"
+                    ? "bg-gradient-to-r from-green-500/10 to-emerald-500/10"
+                    : "bg-gradient-to-r from-blue-500/10 to-indigo-500/10"
                 }`}
-              ></div>
-            </div>
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              ></motion.div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
