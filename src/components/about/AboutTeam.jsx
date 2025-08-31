@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { FaUsers, FaTrophy } from "react-icons/fa";
 import { PiDroneFill } from "react-icons/pi";
@@ -221,9 +222,11 @@ const AboutTeam = () => {
 
             {/* CTA Button */}
             <motion.div className="pt-2" variants={itemVariants}>
-              <button className="px-8 py-4 bg-[#ff8c00] text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff8c00]/25">
-                Learn More About Our Team
-              </button>
+              <Link to="/team">
+                <button className="px-8 py-4 bg-[#ff8c00] text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff8c00]/25">
+                  Learn More About Our Team
+                </button>
+              </Link>
             </motion.div>
           </motion.div>
 

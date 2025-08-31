@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -189,13 +190,15 @@ const HeroContent = () => {
             Explore Our Work
           </motion.button>
 
-          <motion.button
-            className="px-8 py-4 border-2 border-white text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
-            variants={buttonVariantsRight}
-            whileHover="hover"
-          >
-            Meet The Team
-          </motion.button>
+          <Link to="/team">
+            <motion.button
+              className="px-8 py-4 border-2 border-white text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
+              variants={buttonVariantsRight}
+              whileHover="hover"
+            >
+              Meet The Team
+            </motion.button>
+          </Link>
         </div>
 
         {/* Social Links */}

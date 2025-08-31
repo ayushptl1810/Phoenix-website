@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
+import Team from "./pages/Team";
 
 const App = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const App = () => {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/achievements" element={<Achievements />} />
+            <Route path="/team" element={<Team />} />
             <Route
               path="*"
               element={
