@@ -21,8 +21,10 @@ const TimelineCard = ({ achievement, delay }) => {
     <div className="group relative" style={{ animationDelay: `${delay}ms` }}>
       {/* Main Card */}
       <div
-        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm border border-gray-700/50 hover:border-orange-500/50 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20 cursor-pointer ${
-          isExpanded ? "ring-2 ring-orange-500/50" : ""
+        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 hover:border-orange-500/70 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/30 cursor-pointer h-48 ${
+          isExpanded
+            ? "ring-2 ring-orange-500/70 shadow-2xl shadow-orange-500/30"
+            : ""
         }`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
@@ -70,7 +72,7 @@ const TimelineCard = ({ achievement, delay }) => {
         </div>
 
         {/* Hover Glow Effect */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/0 via-orange-500/5 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       </div>
     </div>
   );

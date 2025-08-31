@@ -1,0 +1,18 @@
+/* Hide Spline watermark globally */
+iframe[src*="spline.design"] + div,
+iframe[src*="spline.design"] ~ div[style*="position: absolute"],
+iframe[src*="spline.design"] ~ div[style*="bottom"],
+div[style*="Built with Spline"],
+div[title*="Built with Spline"],
+a[href*="spline.design"][style*="position: absolute"],
+a[href*="spline.design"][style*="bottom"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Ensure iframe content is visible */
+iframe[src*="spline.design"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}

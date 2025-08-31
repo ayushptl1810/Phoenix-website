@@ -106,18 +106,6 @@ const CompetitionsSection = () => {
     },
   };
 
-  const progressVariants = {
-    hidden: { width: 0 },
-    visible: {
-      width: `${progressPercentage}%`,
-      transition: {
-        duration: 1.5,
-        ease: "easeOut",
-        delay: 0.5,
-      },
-    },
-  };
-
   const buttonVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -139,7 +127,7 @@ const CompetitionsSection = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-900 relative overflow-hidden">
+    <section className="min-h-screen bg-black relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-32 h-32 border border-[#ff8c00] rounded-full"></div>
@@ -165,22 +153,35 @@ const CompetitionsSection = () => {
             Showcasing our journey through innovation challenges and
             technological breakthroughs
           </p>
-          
+
           {/* Progress Indicator */}
           <div className="mt-8 max-w-md mx-auto">
             <div className="flex justify-between text-sm text-gray-400 mb-2">
               <span>Progress</span>
-              <span>{completedCount}/{totalCount} Completed</span>
+              <span>
+                {completedCount}/{totalCount} Completed
+              </span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
               <motion.div
-                className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full"
-                variants={progressVariants}
+                className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full origin-left"
+                style={{ width: `${progressPercentage}%` }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 1.5,
+                  ease: "easeOut",
+                  delay: 0.5,
+                }}
               ></motion.div>
             </div>
           </div>
 
-          <motion.div className="mt-6 flex justify-center" variants={buttonVariants}>
+          <motion.div
+            className="mt-6 flex justify-center"
+            variants={buttonVariants}
+          >
             <Link
               to="/achievements"
               className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/30 bg-black/20 backdrop-blur-md text-white hover:border-[#ff8c00] hover:bg-[#ff8c00]/10 transition-all duration-300 text-lg font-ui font-bold tracking-wide"
@@ -199,8 +200,8 @@ const CompetitionsSection = () => {
               key={competition.id}
               className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 ${
                 competition.status === "completed"
-                  ? "bg-gradient-to-br from-green-900/20 to-emerald-800/20 border-green-500/30 hover:border-green-400/50"
-                  : "bg-gradient-to-br from-blue-900/20 to-indigo-800/20 border-blue-500/30 hover:border-blue-400/50"
+                  ? "bg-gradient-to-br from-gray-800 to-gray-900 border-green-500/50 hover:border-green-400/70 hover:shadow-xl hover:shadow-green-500/20"
+                  : "bg-gradient-to-br from-gray-800 to-gray-900 border-blue-500/50 hover:border-blue-400/70 hover:shadow-xl hover:shadow-blue-500/20"
               }`}
               variants={cardVariants}
               whileHover="hover"
@@ -209,8 +210,8 @@ const CompetitionsSection = () => {
               <motion.div
                 className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-ui font-bold ${
                   competition.status === "completed"
-                    ? "bg-green-500/20 text-green-400 border border-green-400/30"
-                    : "bg-blue-500/20 text-blue-400 border border-blue-400/30"
+                    ? "bg-green-500/30 text-green-300 border border-green-400/50"
+                    : "bg-blue-500/30 text-blue-300 border border-blue-400/50"
                 }`}
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
@@ -228,8 +229,17 @@ const CompetitionsSection = () => {
                 )}
               </motion.div>
 
+              {/* Subtle glow effect */}
+              <div
+                className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                  competition.status === "completed"
+                    ? "bg-gradient-to-br from-green-500/5 to-transparent"
+                    : "bg-gradient-to-br from-blue-500/5 to-transparent"
+                }`}
+              ></div>
+
               {/* Content */}
-              <div className="p-8">
+              <div className="relative p-8 z-10">
                 <motion.div
                   className="flex items-start space-x-4 mb-4"
                   whileHover={{ x: 5 }}
@@ -238,8 +248,8 @@ const CompetitionsSection = () => {
                   <motion.div
                     className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${
                       competition.status === "completed"
-                        ? "bg-green-500/20 text-green-400"
-                        : "bg-blue-500/20 text-blue-400"
+                        ? "bg-green-500/30 text-green-300"
+                        : "bg-blue-500/30 text-blue-300"
                     }`}
                     whileHover={{ rotate: 5, scale: 1.1 }}
                     transition={{ duration: 0.2 }}

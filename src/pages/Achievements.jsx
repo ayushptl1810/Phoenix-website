@@ -1,24 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Timeline from "../components/achievements/Timeline";
+import Navbar from "../components/common/Navbar";
 
 const Achievements = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white bg-grid-mask bg-noise-mask">
+    <div className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask">
       {/* Top Nav */}
-      <header className="sticky top-0 z-30 border-b border-gray-800/80 backdrop-blur-sm bg-gray-900/60">
-        <div className="container mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="text-sm tracking-wider text-gray-300">
-            DJS PHOENIX • Achievements
-          </div>
-          <Link
-            to="/"
-            className="px-3 py-1.5 rounded-full text-sm border border-gray-700 text-gray-200 hover:text-white hover:border-orange-500/60 hover:bg-orange-500/10 transition-colors"
-          >
-            ← Back Home
-          </Link>
-        </div>
-      </header>
+      <Navbar currentPage="Achievements" />
 
       {/* Hero Header */}
       <div className="relative overflow-hidden">
@@ -49,7 +38,7 @@ const Achievements = () => {
       </main>
 
       {/* Bottom Band (non-CTA) */}
-      <footer className="border-t border-gray-800/80 bg-gray-900/60">
+      <footer className="border-t border-gray-700/80 bg-black/60">
         <div className="container mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="text-gray-400 text-sm">
@@ -58,7 +47,7 @@ const Achievements = () => {
             <div className="flex items-center gap-3 text-sm">
               <Link
                 to="/"
-                className="px-3 py-1.5 rounded-full border border-gray-700 text-gray-300 hover:text-white hover:border-orange-500/60 hover:bg-orange-500/10 transition-colors"
+                className="px-3 py-1.5 rounded-full border border-gray-700 text-gray-300 hover:text-white hover:border-orange-500/70 hover:bg-orange-500/20 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300"
               >
                 Home
               </Link>
@@ -68,7 +57,7 @@ const Achievements = () => {
                   e.preventDefault();
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="px-3 py-1.5 rounded-full border border-gray-700 text-gray-300 hover:text-white hover:border-orange-500/60 hover:bg-orange-500/10 transition-colors"
+                className="px-3 py-1.5 rounded-full border border-gray-700 text-gray-300 hover:text-white hover:border-orange-500/70 hover:bg-orange-500/20 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300"
               >
                 Back to Top
               </a>

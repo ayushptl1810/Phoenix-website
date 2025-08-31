@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
@@ -39,7 +39,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-black">
       {" "}
       {/* Persistent dark background */}
       <AnimatePresence
@@ -62,7 +62,7 @@ const App = () => {
             <Route
               path="*"
               element={
-                <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+                <div className="min-h-screen bg-black text-white flex items-center justify-center">
                   <div className="text-center">
                     <h1 className="text-6xl font-bold text-orange-500 mb-4">
                       404

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
-import { FaUsers, FaTrophy } from "react-icons/fa";
+import { FaUsers, FaTrophy, FaRocket, FaAward } from "react-icons/fa";
 import { PiDroneFill } from "react-icons/pi";
+import { HiSparkles } from "react-icons/hi2";
 import teamPhoto from "../../assets/team.jpeg";
 
 const AboutTeam = () => {
@@ -20,14 +21,14 @@ const AboutTeam = () => {
 
   const statsRef = useRef(null);
   const isInView = useInView(statsRef, {
-    threshold: 0.3,
+    threshold: 0.2,
     triggerOnce: true,
   });
 
   useEffect(() => {
     if (isInView) {
-      const duration = 2000;
-      const interval = 50;
+      const duration = 1200;
+      const interval = 40;
       const steps = duration / interval;
 
       const timer = setInterval(() => {
@@ -60,97 +61,130 @@ const AboutTeam = () => {
     }
   }, [isInView]);
 
-  // Animation variants
+  // Enhanced animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
-        ease: "easeOut",
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
       },
     },
   };
 
   const photoVariants = {
-    hidden: { opacity: 0, scale: 0.8, x: -50 },
+    hidden: { opacity: 0, scale: 0.9, y: 30 },
     visible: {
       opacity: 1,
       scale: 1,
-      x: 0,
+      y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut",
+        ease: [0.25, 0.25, 0, 1],
       },
     },
   };
 
-  const statsVariants = {
-    hidden: { opacity: 0, scale: 0.5 },
+  const statsCardVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
     visible: {
       opacity: 1,
+      y: 0,
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
+        ease: [0.25, 0.25, 0, 1],
       },
     },
   };
 
   const textVariants = {
-    hidden: { opacity: 0, x: 30 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
-        duration: 0.8,
-        ease: "easeOut",
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
       },
     },
   };
 
   return (
-    <section className="min-h-screen bg-gray-900 py-16">
+    <section className="min-h-screen bg-black py-16">
       <motion.div
         className="max-w-7xl mx-auto px-6"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.2 }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Team Description */}
-          <motion.div className="space-y-8" variants={textVariants}>
-            <div className="space-y-4">
-              <h2 className="font-display text-3xl font-bold text-white">
-                Our
-                <span className="text-[#ff8c00]"> Mission</span>
-              </h2>
+        {/* Header Section */}
+        <motion.div className="text-center mb-16" variants={itemVariants}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff8c00]/10 border border-[#ff8c00]/30 rounded-full mb-6">
+            <HiSparkles className="w-4 h-4 text-[#ff8c00]" />
+            <span className="font-ui text-sm text-[#ff8c00] font-bold">
+              About Our Team
+            </span>
+          </div>
+          <h1 className="font-display text-4xl lg:text-5xl font-bold text-white mb-6">
+            Meet
+            <span className="block text-[#ff8c00]">DJS Phoenix</span>
+          </h1>
+          <p className="font-body text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            A passionate team of students pushing the boundaries of aerial
+            robotics and autonomous systems.
+          </p>
+        </motion.div>
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left Side - Content */}
+          <motion.div
+            className="space-y-8 flex flex-col justify-center"
+            variants={textVariants}
+          >
+            {/* Mission Card */}
+            <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-[#ff8c00]/20 rounded-xl flex items-center justify-center">
+                  <FaRocket className="w-6 h-6 text-[#ff8c00]" />
+                </div>
+                <h2 className="font-display text-2xl font-bold text-white">
+                  Our Mission
+                </h2>
+              </div>
               <p className="font-body text-lg text-gray-300 leading-relaxed">
-                DJS Phoenix is a student-led drone innovation team dedicated to
-                pushing the boundaries of aerial robotics. We combine
-                cutting-edge technology with creative problem-solving to tackle
-                real-world challenges in agriculture, environmental monitoring,
-                and autonomous systems.
+                We're a student-led drone innovation team dedicated to pushing
+                the boundaries of aerial robotics. Our focus spans agriculture,
+                environmental monitoring, and autonomous systems, combining
+                cutting-edge technology with creative problem-solving.
               </p>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="font-display text-2xl font-semibold text-white">
-                Vision
-              </h3>
+            {/* Vision Card */}
+            <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-[#ff8c00]/20 rounded-xl flex items-center justify-center">
+                  <FaAward className="w-6 h-6 text-[#ff8c00]" />
+                </div>
+                <h2 className="font-display text-2xl font-bold text-white">
+                  Our Vision
+                </h2>
+              </div>
               <p className="font-body text-lg text-gray-300 leading-relaxed">
                 To become a leading force in drone technology innovation,
                 fostering the next generation of aerospace engineers and
@@ -159,115 +193,126 @@ const AboutTeam = () => {
               </p>
             </div>
 
-            {/* Key Stats - Professional Design */}
-            <div className="space-y-6" ref={statsRef}>
-              <h3 className="font-display text-2xl font-semibold text-white">
-                Team Highlights
-              </h3>
-
-              {/* Clean Stats Layout - Horizontal */}
-              <div className="grid grid-cols-3 gap-4">
-                {/* Team Size */}
-                <motion.div
-                  className="text-center p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-lg hover:border-[#ff8c00]/30 hover:shadow-lg transition-all duration-200"
-                  variants={statsVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="w-10 h-10 bg-[#ff8c00]/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <FaUsers className="w-5 h-5 text-[#ff8c00]" />
-                  </div>
-                  <div className="font-ui font-bold text-2xl text-white mb-1">
-                    {Math.round(stats.members)}+
-                  </div>
-                  <div className="font-body text-sm text-gray-400">
-                    Team Members
-                  </div>
-                </motion.div>
-
-                {/* Competitions Won */}
-                <motion.div
-                  className="text-center p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-lg hover:border-[#ff8c00]/30 hover:shadow-lg transition-all duration-200"
-                  variants={statsVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="w-10 h-10 bg-[#ff8c00]/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <FaTrophy className="w-5 h-5 text-[#ff8c00]" />
-                  </div>
-                  <div className="font-ui font-bold text-2xl text-white mb-1">
-                    {Math.round(stats.competitions)}
-                  </div>
-                  <div className="font-body text-sm text-gray-400">
-                    Competitions Won
-                  </div>
-                </motion.div>
-
-                {/* Participated In */}
-                <motion.div
-                  className="text-center p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-lg hover:border-[#ff8c00]/30 hover:shadow-lg transition-all duration-200"
-                  variants={statsVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="w-10 h-10 bg-[#ff8c00]/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <PiDroneFill className="w-5 h-5 text-[#ff8c00]" />
-                  </div>
-                  <div className="font-ui font-bold text-2xl text-white mb-1">
-                    {Math.round(stats.participated)}+
-                  </div>
-                  <div className="font-body text-sm text-gray-400">
-                    Participated In
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-
             {/* CTA Button */}
-            <motion.div className="pt-2" variants={itemVariants}>
+            <motion.div variants={itemVariants}>
               <Link to="/team">
-                <button className="px-8 py-4 bg-[#ff8c00] text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff8c00]/25">
-                  Learn More About Our Team
-                </button>
+                <motion.button
+                  className="group relative px-8 py-4 bg-gradient-to-r from-[#ff8c00] to-orange-600 text-white font-ui font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#ff8c00]/25"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span className="relative z-10">Meet Our Team</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-[#ff8c00] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </motion.button>
               </Link>
             </motion.div>
           </motion.div>
 
           {/* Right Side - Team Photo & Visual Elements */}
-          <motion.div className="relative" variants={photoVariants}>
+          <motion.div
+            className="relative flex items-center justify-center"
+            variants={photoVariants}
+          >
             {/* Team Photo */}
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+            <div className="relative overflow-hidden rounded-xl shadow-xl">
               <img
                 src={teamPhoto}
                 alt="DJS Phoenix Team"
                 className="w-full h-auto object-cover"
               />
-
               {/* Subtle Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#ff8c00]/10 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
             </div>
 
-            {/* Floating Achievement Badge */}
+            {/* Achievement Badge */}
             <motion.div
-              className="absolute -top-4 -right-4 bg-white rounded-full p-3 shadow-lg border border-gray-200"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <PiDroneFill className="w-8 h-8 text-[#ff8c00]" />
-            </motion.div>
-
-            {/* Stats Card */}
-            <motion.div
-              className="absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-lg border border-gray-200 max-w-xs"
+              className="absolute -bottom-4 -right-4 bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-700"
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
             >
-              <h4 className="font-ui font-bold text-gray-900 mb-2 text-sm">
-                Latest Achievement
-              </h4>
+              <div className="flex items-center gap-2 mb-1">
+                <FaTrophy className="w-4 h-4 text-[#ff8c00]" />
+                <h4 className="font-ui font-bold text-white text-sm">
+                  Latest Achievement
+                </h4>
+              </div>
               <p className="font-ui font-bold text-[#ff8c00] text-sm">
                 ISRO IROC 2025 Finalists
               </p>
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Statistics Section */}
+        <motion.div
+          className="space-y-8"
+          ref={statsRef}
+          variants={itemVariants}
+        >
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold text-white mb-4">
+              Our Impact in Numbers
+            </h2>
+            <p className="font-body text-lg text-gray-400 max-w-2xl mx-auto">
+              These numbers represent our commitment to excellence and
+              continuous growth in the field of drone technology.
+            </p>
+          </div>
+
+          {/* Enhanced Stats Grid */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Team Members */}
+            <motion.div
+              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              variants={statsCardVariants}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
+                <FaUsers className="w-6 h-6 text-white" />
+              </div>
+              <div className="font-ui font-bold text-4xl text-white mb-2">
+                {Math.round(stats.members)}+
+              </div>
+              <div className="font-body text-gray-400 font-medium">
+                Dedicated Team Members
+              </div>
+            </motion.div>
+
+            {/* Competitions Won */}
+            <motion.div
+              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              variants={statsCardVariants}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
+                <FaTrophy className="w-6 h-6 text-white" />
+              </div>
+              <div className="font-ui font-bold text-4xl text-white mb-2">
+                {Math.round(stats.competitions)}
+              </div>
+              <div className="font-body text-gray-400 font-medium">
+                Competitions Won
+              </div>
+            </motion.div>
+
+            {/* Events Participated */}
+            <motion.div
+              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              variants={statsCardVariants}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
+                <PiDroneFill className="w-6 h-6 text-white" />
+              </div>
+              <div className="font-ui font-bold text-4xl text-white mb-2">
+                {Math.round(stats.participated)}+
+              </div>
+              <div className="font-body text-gray-400 font-medium">
+                Events Participated
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );

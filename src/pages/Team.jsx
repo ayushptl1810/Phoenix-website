@@ -1,54 +1,110 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { ExpandableCardDemo } from "../components/team/ExpandableCardDemo";
+import Navbar from "../components/common/Navbar";
+import { FaRocket } from "react-icons/fa";
+import { HiSparkles } from "react-icons/hi2";
 
 const Team = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-orange-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            <span className="text-orange-200">Our Team</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-orange-100 mb-8 max-w-3xl mx-auto">
-            Meet the brilliant minds behind Phoenix Drones' innovative technology and groundbreaking research
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-black text-white">
+      {/* Top Nav */}
+      <Navbar currentPage="Team" />
 
-      {/* Core Team Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero Section */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-[#ff8c00]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-40">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Core <span className="text-orange-500">Team</span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              The founding members and senior leadership driving our vision forward
-            </p>
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff8c00]/10 border border-[#ff8c00]/30 rounded-full mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <HiSparkles className="w-4 h-4 text-[#ff8c00]" />
+              <span className="font-ui text-sm text-[#ff8c00] font-bold">
+                Championship Team
+              </span>
+            </motion.div>
+
+            <motion.h1
+              className="font-display text-5xl md:text-7xl font-bold text-white mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              The Minds Behind
+              <span className="block bg-gradient-to-r from-[#ff8c00] to-orange-600 bg-clip-text text-transparent">
+                DJS Phoenix
+              </span>
+            </motion.h1>
+
+            <motion.p
+              className="font-body text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Award-winning innovators, competition champions, and the future
+              leaders of drone technology. Meet the exceptional team that has
+              conquered national and international competitions.
+            </motion.p>
+
+            {/* Core Team Cards - Directly after hero content */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="mt-16"
+            >
+              <ExpandableCardDemo cardType="core" />
+            </motion.div>
           </div>
-          
-          <ExpandableCardDemo cardType="core" />
         </div>
       </section>
 
       {/* Junior Core Team Section */}
-      <section className="py-20 bg-gray-800">
+      <section className="py-24 bg-black relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Junior <span className="text-orange-500">Core</span>
+          <motion.div
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff8c00]/10 border border-[#ff8c00]/30 rounded-full mb-6">
+              <FaRocket className="w-4 h-4 text-[#ff8c00]" />
+              <span className="font-ui text-sm text-[#ff8c00] font-bold">
+                Rising Stars
+              </span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
+              Junior <span className="text-[#ff8c00]">Innovators</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Rising talents and dedicated contributors shaping the future of Phoenix Drones
+            <p className="font-body text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              The next generation of drone technology pioneers. These talented
+              individuals are already making significant contributions to our
+              competition successes and breakthrough innovations.
             </p>
-          </div>
-          
-          <ExpandableCardDemo cardType="junior" />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <ExpandableCardDemo cardType="junior" />
+          </motion.div>
         </div>
       </section>
-
-      
     </div>
   );
 };
