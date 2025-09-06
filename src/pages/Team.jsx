@@ -13,22 +13,19 @@ const Team = () => {
 
       {/* Hero Section */}
       <section className="relative py-24 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-72 h-72 bg-[#ff8c00]/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-        </div>
+        {/* Removed local orange/blue glow background elements to rely on BeamsBackground */}
+        <div className="absolute inset-0"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-40">
           <div className="text-center mb-16">
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff8c00]/10 border border-[#ff8c00]/30 rounded-full mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/30 rounded-full mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <HiSparkles className="w-4 h-4 text-[#ff8c00]" />
-              <span className="font-ui text-sm text-[#ff8c00] font-bold">
+              <HiSparkles className="w-4 h-4 text-white" />
+              <span className="font-ui text-sm text-white font-bold">
                 Championship Team
               </span>
             </motion.div>
@@ -40,7 +37,7 @@ const Team = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               The Minds Behind
-              <span className="block bg-gradient-to-r from-[#ff8c00] to-orange-600 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 DJS Phoenix
               </span>
             </motion.h1>
@@ -79,14 +76,14 @@ const Team = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff8c00]/10 border border-[#ff8c00]/30 rounded-full mb-6">
-              <FaRocket className="w-4 h-4 text-[#ff8c00]" />
-              <span className="font-ui text-sm text-[#ff8c00] font-bold">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/30 rounded-full mb-6">
+              <FaRocket className="w-4 h-4 text-white" />
+              <span className="font-ui text-sm text-white font-bold">
                 Rising Stars
               </span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
-              Junior <span className="text-[#ff8c00]">Innovators</span>
+              Junior <span className="text-white">Innovators</span>
             </h2>
             <p className="font-body text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
               The next generation of drone technology pioneers. These talented

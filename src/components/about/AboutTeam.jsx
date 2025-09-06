@@ -99,14 +99,14 @@ const AboutTeam = () => {
   };
 
   const statsCardVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: { opacity: 0, y: 12, scale: 1 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0, 1],
+        duration: 0.35,
+        ease: "easeOut",
       },
     },
   };
@@ -124,7 +124,7 @@ const AboutTeam = () => {
   };
 
   return (
-    <section className="min-h-screen bg-black py-16">
+    <section className="min-h-screen py-16">
       <motion.div
         className="max-w-7xl mx-auto px-6"
         variants={containerVariants}
@@ -158,7 +158,7 @@ const AboutTeam = () => {
             variants={textVariants}
           >
             {/* Mission Card */}
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/15 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-colors duration-200">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-[#ff8c00]/20 rounded-xl flex items-center justify-center">
                   <FaRocket className="w-6 h-6 text-[#ff8c00]" />
@@ -176,7 +176,7 @@ const AboutTeam = () => {
             </div>
 
             {/* Vision Card */}
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/15 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 transition-colors duration-200">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-[#ff8c00]/20 rounded-xl flex items-center justify-center">
                   <FaAward className="w-6 h-6 text-[#ff8c00]" />
@@ -263,9 +263,8 @@ const AboutTeam = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Team Members */}
             <motion.div
-              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
               variants={statsCardVariants}
-              whileHover={{ scale: 1.05 }}
             >
               <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <FaUsers className="w-6 h-6 text-white" />
@@ -280,9 +279,8 @@ const AboutTeam = () => {
 
             {/* Competitions Won */}
             <motion.div
-              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
               variants={statsCardVariants}
-              whileHover={{ scale: 1.05 }}
             >
               <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <FaTrophy className="w-6 h-6 text-white" />
@@ -297,9 +295,8 @@ const AboutTeam = () => {
 
             {/* Events Participated */}
             <motion.div
-              className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
               variants={statsCardVariants}
-              whileHover={{ scale: 1.05 }}
             >
               <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <PiDroneFill className="w-6 h-6 text-white" />

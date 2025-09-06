@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
 import Team from "./pages/Team";
+import BeamsBackground from "./components/common/BeamsBackground";
 
 const App = () => {
   const location = useLocation();
@@ -39,9 +40,8 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      {" "}
-      {/* Persistent dark background */}
+    <div className="min-h-screen bg-black relative">
+      <BeamsBackground intensity="strong" />
       <AnimatePresence
         mode="wait"
         initial={false}

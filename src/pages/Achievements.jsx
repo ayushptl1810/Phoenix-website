@@ -11,7 +11,8 @@ const Achievements = () => {
 
       {/* Hero Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-transparent"></div>
+        {/* Removed orange gradient overlay to rely on BeamsBackground */}
+        <div className="absolute inset-0"></div>
         <div className="relative z-10 container mx-auto px-6 py-20">
           <div className="text-center">
             <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent leading-[1.1] pb-1">
@@ -25,11 +26,7 @@ const Achievements = () => {
           </div>
         </div>
 
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-orange-500/10 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-orange-500/15 rounded-full blur-lg animate-pulse delay-500"></div>
-        <div className="absolute top-80 left-1/3 w-24 h-24 bg-orange-500/8 rounded-full blur-xl animate-pulse delay-300"></div>
+        {/* Removed floating orange glow elements */}
       </div>
 
       {/* Main Timeline */}

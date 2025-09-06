@@ -98,19 +98,6 @@ const HeroContent = () => {
     },
   };
 
-  const scrollVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-        delay: 1.5,
-      },
-    },
-  };
-
   return (
     <motion.main
       className="relative min-h-screen flex items-center justify-center"
@@ -232,24 +219,6 @@ const HeroContent = () => {
           </motion.a>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        variants={scrollVariants}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <motion.div
-            className="w-1 h-3 bg-white/50 rounded-full mt-2"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          ></motion.div>
-        </motion.div>
-      </motion.div>
     </motion.main>
   );
 };

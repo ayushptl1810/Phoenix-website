@@ -128,13 +128,8 @@ const CompetitionsSection = () => {
 
   return (
     <section className="min-h-screen bg-black relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-32 h-32 border border-[#ff8c00] rounded-full"></div>
-        <div className="absolute top-40 right-32 w-24 h-24 border border-[#ff8c00] transform rotate-45"></div>
-        <div className="absolute bottom-32 left-32 w-16 h-16 bg-[#ff8c00] rounded-full"></div>
-        <div className="absolute bottom-20 right-20 w-20 h-20 border border-[#ff8c00] rounded-full"></div>
-      </div>
+      {/* Removed orange background accents; BeamsBackground provides ambient visuals */}
+      <div className="absolute inset-0 opacity-0"></div>
 
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-6 py-20"
