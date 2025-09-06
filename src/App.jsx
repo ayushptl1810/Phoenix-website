@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
 import Team from "./pages/Team";
 import BeamsBackground from "./components/common/BeamsBackground";
+import SiteFooter from "./components/common/SiteFooter";
 
 const App = () => {
   const location = useLocation();
@@ -81,6 +82,7 @@ const App = () => {
           </Routes>
         </motion.div>
       </AnimatePresence>
+      <SiteFooter />
     </div>
   );
 };

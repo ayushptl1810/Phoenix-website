@@ -1,460 +1,152 @@
-import React, { useMemo, useRef, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { achievements as defaultAchievements } from "./competitionData";
 import TimelineCard from "./TimelineCard";
 
-import { motion, useScroll } from "framer-motion";
-import { achievements, primaryCategoryOrder } from "./competitionData";
-
-const Timeline = () => {
-  const [activeCategories, setActiveCategories] = useState(new Set(["All"]));
+const Timeline = ({ data }) => {
+  const ref = useRef(null);
   const containerRef = useRef(null);
-  const timelineAreaRef = useRef(null);
-  const [activeYear, setActiveYear] = useState(null);
-  const [completedYears, setCompletedYears] = useState(new Set());
-  const [completedRings, setCompletedRings] = useState(new Set());
-  const [ringRatios, setRingRatios] = useState({}); // id -> ratio 0..1
-  const [yearRatios, setYearRatios] = useState({}); // year -> ratio 0..1
-  const [maxProgress, setMaxProgress] = useState(0); // persist line fill
+  const [trackHeightPx, setTrackHeightPx] = useState(0);
 
-  const allCategories = useMemo(() => {
-    const present = new Set();
-    achievements.forEach((y) =>
-      y.achievements.forEach((a) => present.add(a.category))
-    );
-    const filtered = primaryCategoryOrder.filter((c) => present.has(c));
-    return ["All", ...filtered];
-  }, [achievements]);
-
-  const filtered = useMemo(() => {
-    if (activeCategories.has("All")) return achievements;
-    return achievements
-      .map((year) => ({
-        ...year,
-        achievements: year.achievements.filter((a) =>
-          activeCategories.has(a.category)
-        ),
-      }))
-      .filter((y) => y.achievements.length > 0);
-  }, [achievements, activeCategories]);
-
-  const toggleCategory = (cat) => {
-    setActiveCategories((prev) => {
-      const next = new Set(prev);
-      if (cat === "All") return new Set(["All"]);
-      next.delete("All");
-      if (next.has(cat)) next.delete(cat);
-      else next.add(cat);
-      if (next.size === 0) return new Set(["All"]);
-      return next;
-    });
-  };
-
-  // Scrollspy for active year (kept for rail highlight)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const yr = entry.target.getAttribute("data-year");
-            setActiveYear(Number(yr));
-          }
-        });
-      },
-      { root: null, rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
-    );
-    const sections = document.querySelectorAll("[data-year]");
-    sections.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Framer Motion scroll progress for center line following viewport center
-  const { scrollYProgress } = useScroll({
-    target: timelineAreaRef,
-    offset: ["start center", "end end"],
-  });
-
-  // Persist max progress so the line doesn't shrink on scroll up
-  useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => {
-      setMaxProgress((prev) => (v > prev ? v : prev));
-    });
-    return () => unsub && unsub();
-  }, [scrollYProgress]);
-
-  // Compute element ratios relative to the timeline area
-  useEffect(() => {
-    const computeRatios = () => {
-      const area = timelineAreaRef.current;
-      if (!area) return;
-      const total =
-        area.scrollHeight || area.getBoundingClientRect().height || 1;
-      const areaTop = area.getBoundingClientRect().top + window.scrollY;
-
-      const ringNodes = area.querySelectorAll("[data-ring-id]");
-      const ringMap = {};
-      ringNodes.forEach((node) => {
-        const id = Number(node.getAttribute("data-ring-id"));
-        const top = node.getBoundingClientRect().top + window.scrollY;
-        const ratio = Math.min(1, Math.max(0, (top - areaTop) / total));
-        ringMap[id] = ratio;
-      });
-
-      const yearNodes = area.querySelectorAll("[data-year]");
-      const yearMap = {};
-      yearNodes.forEach((node) => {
-        const yr = Number(node.getAttribute("data-year"));
-        const top = node.getBoundingClientRect().top + window.scrollY;
-        const ratio = Math.min(1, Math.max(0, (top - areaTop) / total));
-        yearMap[yr] = ratio;
-      });
-
-      setRingRatios(ringMap);
-      setYearRatios(yearMap);
-    };
-
-    computeRatios();
-    window.addEventListener("resize", computeRatios);
-    // recalc after images load
-    const t = setTimeout(computeRatios, 300);
-    return () => {
-      window.removeEventListener("resize", computeRatios);
-      clearTimeout(t);
-    };
-  }, []);
-
-  // Tie completions to scroll progress following the center line
-  useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => {
-      const epsilon = 0.005; // small lead so it feels responsive
-      // Rings
-      const newRings = new Set(completedRings);
-      Object.entries(ringRatios).forEach(([id, ratio]) => {
-        if (v + epsilon >= ratio) newRings.add(Number(id));
-      });
-      if (newRings.size !== completedRings.size) setCompletedRings(newRings);
-
-      // Years
-      const newYears = new Set(completedYears);
-      Object.entries(yearRatios).forEach(([yr, ratio]) => {
-        if (v + epsilon >= ratio) newYears.add(Number(yr));
-      });
-      if (newYears.size !== completedYears.size) setCompletedYears(newYears);
-    });
-    return () => unsub && unsub();
-  }, [scrollYProgress, ringRatios, yearRatios, completedRings, completedYears]);
-
-  // Card motion variants
-  const cardVariants = {
-    hidden: { opacity: 0, y: 14 },
-    show: { opacity: 1, y: 0 },
-  };
-
-  const scrollToYear = (year) => {
-    const el = document.getElementById(`year-${year}`);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const visibleYears = useMemo(
-    () => filtered.map((y) => ({ year: y.year, count: y.achievements.length })),
-    [filtered]
-  );
-
-  return (
-    <div className="relative" ref={containerRef}>
-      {/* Filters - chip style with extra gap */}
-      <div className="mb-8 flex flex-wrap items-center gap-3">
-        {allCategories.map((cat) => {
-          const isActive = activeCategories.has(cat);
-          return (
-            <button
-              key={cat}
-              onClick={() => toggleCategory(cat)}
-              className={`px-3 py-1 rounded-full text-sm border transition-all cursor-pointer ${
-                isActive
-                  ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-gray-800 text-gray-300 border-gray-700 hover:border-orange-500/70 hover:text-white hover:shadow-lg hover:shadow-orange-500/30"
-              }`}
-            >
-              {cat}
-            </button>
-          );
-        })}
-        <span className="ml-2 text-xs text-gray-400">
-          Showing {filtered.reduce((n, y) => n + y.achievements.length, 0)}{" "}
-          items
-        </span>
-      </div>
-
-      {/* Rail + Timeline layout */}
-      <div className="relative flex gap-12">
-        {/* Sticky Year Rail */}
-        <div className="hidden md:block w-48 pr-2">
-          <div className="sticky top-20 space-y-4">
-            {visibleYears.map(({ year, count }) => {
-              const isActive = activeYear === year;
-              return (
-                <button
-                  key={year}
-                  onClick={() => scrollToYear(year)}
-                  className={`w-full text-left rounded-2xl border transition-all overflow-hidden cursor-pointer ${
-                    isActive
-                      ? "bg-gradient-to-b from-orange-500/20 to-orange-600/15 border-orange-500/70 shadow-xl shadow-orange-500/20"
-                      : "bg-gray-800 border-gray-700 hover:border-orange-500/70 hover:shadow-lg hover:shadow-orange-500/20"
-                  }`}
-                >
-                  <div className="h-full flex flex-col justify-center px-5 py-2">
-                    <div className="text-1xl font-extrabold text-white tracking-tight">
-                      {year}
-                    </div>
-                    <div className="mt-1 text-sm text-gray-300">
-                      {count} achievements
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Timeline Area (self-contained for centered line) */}
-        <div className="relative flex-1 pl-4" ref={timelineAreaRef}>
-          {/* Central Timeline Line: base + progress fill overlay (Framer Motion) */}
-          <div className="absolute left-1/2 transform translate-x-1.75 w-0.5 bg-gray-600 h-full rounded-full"></div>
-          <motion.div
-            className="absolute left-1/2 transform translate-x-1.75 w-0.5 bg-gradient-to-b from-orange-500 via-orange-400 to-orange-600 rounded-full"
-            style={{
-              height: `${Math.max(0, Math.min(1, maxProgress)) * 100}%`,
-              top: 0,
-            }}
-          />
-
-          {/* Timeline Content */}
-          <div className="relative z-10">
-            {filtered.map((yearGroup) => (
-              <div
-                key={yearGroup.year}
-                className="relative mb-16"
-                data-year={yearGroup.year}
-                id={`year-${yearGroup.year}`}
-              >
-                {/* Central glow under year header */}
-                <div className="absolute left-1/2 -translate-x-1/2 -top-2 w-40 h-40 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
-
-                {/* Year Header with Horizontal Lines (animated with completion) */}
-                <div className="relative flex justify-center mb-6">
-                  <div className="relative flex items-center">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: completedYears.has(yearGroup.year) ? 128 : 0,
-                      }}
-                      transition={{ duration: 0.4, ease: "linear" }}
-                      className="h-0.5 bg-gradient-to-r from-transparent to-gray-500"
-                    />
-                    <motion.div
-                      initial={{
-                        scale: 0.98,
-                        boxShadow: "0 0 0 0 rgba(255,140,0,0)",
-                      }}
-                      animate={{
-                        scale: completedYears.has(yearGroup.year) ? 1 : 0.98,
-                        boxShadow: completedYears.has(yearGroup.year)
-                          ? "0 0 40px 0 rgba(255,140,0,0.15)"
-                          : "0 0 0 0 rgba(255,140,0,0)",
-                      }}
-                      transition={{ duration: 0.4, ease: "linear" }}
-                      className="w-20 h-20 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 border-4 border-gray-700 flex items-center justify-center shadow-2xl shadow-orange-500/60 mx-4"
-                    >
-                      <span className="text-2xl font-bold text-white">
-                        {yearGroup.year}
-                      </span>
-                    </motion.div>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: completedYears.has(yearGroup.year) ? 128 : 0,
-                      }}
-                      transition={{ duration: 0.4, ease: "linear" }}
-                      className="h-0.5 bg-gradient-to-l from-transparent to-gray-500"
-                    />
-                  </div>
-                </div>
-
-                {/* Achievements for this year - alternating sides using 2-col grid */}
-                <div className="grid grid-cols-2 gap-y-12">
-                  {yearGroup.achievements.map(
-                    (achievement, achievementIndex) => {
-                      // First achievement: drone on LEFT + card on RIGHT
-                      if (achievementIndex === 0) {
-                        return (
-                          <div
-                            key={achievement.id}
-                            className="relative col-span-2 grid grid-cols-2"
-                            data-achievement-index={achievementIndex}
-                            data-achievement-id={achievement.id}
-                          >
-                            {/* Center ring */}
-                            <motion.span
-                              data-ring-id={achievement.id}
-                              initial={{
-                                backgroundColor: "rgba(0,0,0,0)",
-                                borderColor: "rgba(255,140,0,0.5)",
-                              }}
-                              animate={{
-                                backgroundColor: completedRings.has(
-                                  achievement.id
-                                )
-                                  ? "rgba(255,140,0,0.9)"
-                                  : "rgba(0,0,0,0)",
-                                borderColor: completedRings.has(achievement.id)
-                                  ? "rgba(255,140,0,1)"
-                                  : "rgba(255,140,0,0.5)",
-                              }}
-                              transition={{ duration: 0.25, ease: "linear" }}
-                              className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-30 block w-5 h-5 rounded-full border-2"
-                            />
-
-                            {/* Drone on LEFT */}
-                            <div className="flex justify-end pr-20 relative z-50">
-                              <div className="relative w-150 h-48 overflow-hidden">
-                                <iframe
-                                  src="https://my.spline.design/aeromedicdrone-nIF17ngFsaulMaadNzopmeIh/"
-                                  frameBorder="0"
-                                  width="600"
-                                  height="480"
-                                  style={{
-                                    pointerEvents: "none",
-                                    border: "none",
-                                    backgroundColor: "transparent",
-                                    transform: "scale(0.8) translateY(10%)",
-                                    transformOrigin: "center center",
-                                    position: "relative",
-                                  }}
-                                  title={`Drone for ${yearGroup.year}`}
-                                  loading="lazy"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Achievement card on RIGHT */}
-                            <motion.div
-                              variants={cardVariants}
-                              initial="hidden"
-                              whileInView="show"
-                              viewport={{
-                                once: true,
-                                amount: 0.5,
-                                margin: "-20% 0px -20% 0px",
-                              }}
-                              transition={{
-                                duration: 0.36,
-                                delay: 0.06 + achievementIndex * 0.04,
-                                ease: "linear",
-                              }}
-                              className="flex justify-start pl-20"
-                            >
-                              <div className="w-150">
-                                <TimelineCard
-                                  achievement={achievement}
-                                  delay={0}
-                                />
-                              </div>
-                            </motion.div>
-                          </div>
-                        );
-                      }
-
-                      // Other achievements: normal alternating pattern
-                      return (
-                        <div
-                          key={achievement.id}
-                          className="relative col-span-2 grid grid-cols-2"
-                          data-achievement-index={achievementIndex}
-                          data-achievement-id={achievement.id}
-                        >
-                          {/* Center ring on the vertical line (follow center-line progress) */}
-                          <motion.span
-                            data-ring-id={achievement.id}
-                            initial={{
-                              backgroundColor: "rgba(0,0,0,0)",
-                              borderColor: "rgba(255,140,0,0.5)",
-                            }}
-                            animate={{
-                              backgroundColor: completedRings.has(
-                                achievement.id
-                              )
-                                ? "rgba(255,140,0,0.9)"
-                                : "rgba(0,0,0,0)",
-                              borderColor: completedRings.has(achievement.id)
-                                ? "rgba(255,140,0,1)"
-                                : "rgba(255,140,0,0.5)",
-                            }}
-                            transition={{ duration: 0.25, ease: "linear" }}
-                            className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-30 block w-5 h-5 rounded-full border-2"
-                          />
-                          {achievementIndex % 2 === 0 ? (
-                            <>
-                              <div></div>
-                              <motion.div
-                                variants={cardVariants}
-                                initial="hidden"
-                                whileInView="show"
-                                viewport={{
-                                  once: true,
-                                  amount: 0.5,
-                                  margin: "-20% 0px -20% 0px",
-                                }}
-                                transition={{
-                                  duration: 0.36,
-                                  delay: 0.06 + achievementIndex * 0.04,
-                                  ease: "linear",
-                                }}
-                                className="flex justify-start pl-20"
-                              >
-                                <div className="w-150">
-                                  <TimelineCard
-                                    achievement={achievement}
-                                    delay={0}
-                                  />
-                                </div>
-                              </motion.div>
-                            </>
-                          ) : (
-                            <>
-                              <motion.div
-                                variants={cardVariants}
-                                initial="hidden"
-                                whileInView="show"
-                                viewport={{
-                                  once: true,
-                                  amount: 0.5,
-                                  margin: "-20% 0px -20% 0px",
-                                }}
-                                transition={{
-                                  duration: 0.36,
-                                  delay: 0.08 + achievementIndex * 0.04,
-                                  ease: "linear",
-                                }}
-                                className="flex justify-end pr-20"
-                              >
-                                <div className="w-150">
-                                  <TimelineCard
-                                    achievement={achievement}
-                                    delay={0}
-                                  />
-                                </div>
-                              </motion.div>
-                              <div></div>
-                            </>
-                          )}
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
-              </div>
+  // Normalize achievements (supports nested arrays) and build sections
+  const resolvedData = useMemo(() => {
+    if (Array.isArray(data) && data.length > 0) return data;
+    const source = Array.isArray(defaultAchievements)
+      ? defaultAchievements
+      : [];
+    const flat = source.some((entry) => Array.isArray(entry))
+      ? source.flat(Infinity)
+      : source;
+    return (flat || []).filter(Boolean).map((group) => ({
+      title: String(group.year),
+      count: (group.achievements || []).length,
+      content: (
+        <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-12">
+            {(group.achievements || []).map((a, idx) => (
+              <TimelineCard key={a.id} item={a} index={idx} />
             ))}
           </div>
         </div>
+      ),
+    }));
+  }, [data, defaultAchievements]);
+
+  // Measure track container height for the vertical progress
+  useEffect(() => {
+    const measure = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        setTrackHeightPx(rect.height);
+      }
+    };
+    measure();
+    const t = setTimeout(measure, 100);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("resize", measure);
+      clearTimeout(t);
+    };
+  }, [resolvedData]);
+
+  // Scroll progress bound to the overall container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 20%", "end 70%"],
+  });
+
+  const heightTransform = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, trackHeightPx]
+  );
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+  return (
+    <div className="w-full font-sans" ref={containerRef}>
+      <div ref={ref} className="relative max-w-8xl mx-auto pb-16 md:pb-20">
+        {resolvedData.map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-start pt-10 md:pt-28 md:gap-10"
+          >
+            <div className="sticky flex flex-col md:flex-row z-20 items-center top-28 self-start max-w-xs lg:max-w-sm md:w-full">
+              {/* Node + ripple */}
+              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-transparent flex items-center justify-center">
+                {/* Vibrant gradient ring */}
+                <div className="relative">
+                  <div className="w-6 h-6 rounded-full p-[2px] bg-gradient-to-br from-orange-400 via-fuchsia-500 to-cyan-400">
+                    <div className="w-full h-full rounded-full bg-neutral-900" />
+                  </div>
+                  {/* Inner glowing core */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-orange-400 to-rose-400 shadow-[0_0_18px_rgba(255,100,50,0.7)]" />
+                  </div>
+                  {/* Soft halo */}
+                  <div className="absolute -inset-2 rounded-full bg-orange-400/20 blur-md" />
+                </div>
+                {/* Ripple animation */}
+                <motion.span
+                  initial={{ scale: 0.7, opacity: 0 }}
+                  whileInView={{
+                    scale: [0.8, 1.3, 1.7],
+                    opacity: [0.35, 0.18, 0],
+                  }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400/30 to-rose-400/30 blur-md"
+                />
+              </div>
+              {/* Year title with subtle glow */}
+              <div className="relative">
+                <div className="pointer-events-none absolute -inset-2 rounded-full bg-orange-500/10 blur-lg" />
+                <h3 className="hidden md:block relative font-display text-xl md:pl-20 md:text-5xl font-bold text-neutral-400">
+                  {item.title}
+                </h3>
+                <div className="hidden font-ui md:block md:pl-20 mt-1 text-lg text-neutral-500">
+                  {item.count}{" "}
+                  {item.count === 1 ? "achievement" : "achievements"}
+                </div>
+              </div>
+            </div>
+
+            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+              {/* Connector from spine to content */}
+              <motion.div
+                initial={{ width: 0, opacity: 0.6 }}
+                whileInView={{ width: "3rem", opacity: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute -left-12 top-6 h-px w-12 bg-gradient-to-r from-transparent via-orange-400 to-transparent"
+              />
+              <h3 className="md:hidden block font-display text-2xl text-left font-bold text-neutral-400">
+                {item.title}
+              </h3>
+              <div className="md:hidden mb-4 text-xs text-neutral-500">
+                {item.count} {item.count === 1 ? "achievement" : "achievements"}
+              </div>
+              {item.content}
+            </div>
+          </div>
+        ))}
+
+        {/* Vertical track with scroll-linked progress */}
+        <div
+          style={{ height: trackHeightPx + "px" }}
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent via-neutral-700 to-transparent [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+        >
+          <motion.div
+            style={{ height: heightTransform, opacity: opacityTransform }}
+            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-orange-500 via-orange-400 to-transparent rounded-full"
+          />
+        </div>
+        {/* Spine aura */}
+        <div className="pointer-events-none absolute left-8 -translate-x-1/2 top-0 bottom-0 w-24 bg-orange-500/10 blur-3xl" />
       </div>
     </div>
   );

@@ -3,8 +3,6 @@
 
 /* Font System Variables */
 :root {
-  /* --font-display: "Fraunces", serif; */
-  /* --font-body: "Lora", serif; */
   --font-display: "Lora", serif;
   --font-body: "Fraunces", serif;
   --font-ui: "Satoshi", sans-serif;
@@ -41,6 +39,22 @@ body,
 body {
   margin: 0;
   font-family: var(--font-body);
+}
+
+/* Global typography mapping */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+/* Utility for UI text in controls (opt-in via class) */
+.ui-text {
+  font-family: var(--font-ui);
+  font-weight: 800;
 }
 
 /* Text color helpers for Tailwind usage */
@@ -124,6 +138,7 @@ html {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
 }
 
 /* Subtle background grid/noise layer */

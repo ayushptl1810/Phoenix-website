@@ -4,8 +4,8 @@ import Logo from "../../assets/Logo.png";
 
 const Navbar = ({ currentPage = "Home" }) => {
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-600/60 backdrop-blur-md bg-black/80 shadow-lg shadow-black/20">
-      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-300 border-b border-gray-600/60 backdrop-blur-md bg-black/80 shadow-lg shadow-black/20">
+      <div className="container mx-auto px-6 h-20 md:h-20 flex items-center justify-between">
         {/* Left: Logo + Brand + Current Page */}
         <div className="flex items-center space-x-4">
           <Link
@@ -15,7 +15,7 @@ const Navbar = ({ currentPage = "Home" }) => {
             <img
               src={Logo}
               alt="DJS Phoenix Logo"
-              className="w-12 h-12 object-contain"
+              className="w-14 h-14 md:w-16 md:h-16 object-contain"
             />
             <div className="flex items-center space-x-2">
               <span className="font-display text-lg font-bold text-white tracking-tight">
@@ -30,22 +30,22 @@ const Navbar = ({ currentPage = "Home" }) => {
         </div>
 
         {/* Right: Navigation Menu */}
-        <nav className="flex items-center space-x-1">
+        <nav className="flex items-center space-x-3 md:space-x-4">
           <Link
             to="/"
-            className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+            className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
           >
             Home
           </Link>
           <Link
             to="/team"
-            className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+            className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
           >
             Team
           </Link>
           <Link
             to="/achievements"
-            className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+            className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
           >
             Achievements
           </Link>
