@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
 import Team from "./pages/Team";
+import Fleet from "./pages/Fleet";
 import BeamsBackground from "./components/common/BeamsBackground";
 import SiteFooter from "./components/common/SiteFooter";
 
@@ -59,6 +60,7 @@ const App = () => {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/achievements" element={<Achievements />} />
+            <Route path="/fleet" element={<Fleet />} />
             <Route path="/team" element={<Team />} />
             <Route
               path="*"

@@ -169,17 +169,19 @@ const HeroContent = () => {
 
         {/* Call-to-Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <motion.button
-            className="px-8 py-4 border-2 border-[#ff8c00] bg-[#ff8c00] text-black font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-transparent hover:text-[#ff8c00] cursor-pointer"
-            variants={buttonVariants}
-            whileHover="hover"
-          >
-            Explore Our Work
-          </motion.button>
+          <Link to="/fleet">
+            <motion.button
+              className="px-8 py-4 border-2 border-[#ff8c00] bg-[#ff8c00] text-black font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:brightness-110 hover:shadow-lg hover:shadow-orange-500/20 cursor-pointer"
+              variants={buttonVariants}
+              whileHover="hover"
+            >
+              View our fleet
+            </motion.button>
+          </Link>
 
           <Link to="/team">
             <motion.button
-              className="px-8 py-4 border-2 border-white text-white font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
+              className="px-8 py-4 border-2 border-gray-300 bg-gray-300 text-black font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
               variants={buttonVariantsRight}
               whileHover="hover"
             >

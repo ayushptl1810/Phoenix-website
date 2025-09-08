@@ -38,6 +38,12 @@ const Navbar = ({ currentPage = "Home" }) => {
             Home
           </Link>
           <Link
+            to="/fleet"
+            className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
+          >
+            Fleet
+          </Link>
+          <Link
             to="/team"
             className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
           >
