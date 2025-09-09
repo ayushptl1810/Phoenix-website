@@ -1,66 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
-import { FaUsers, FaTrophy, FaRocket, FaAward } from "react-icons/fa";
-import { PiDroneFill } from "react-icons/pi";
+import { motion } from "framer-motion";
+import { FaRocket, FaAward, FaTrophy } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
 import teamPhoto from "../../assets/team.jpeg";
 
 const AboutTeam = () => {
-  const [stats, setStats] = useState({
-    members: 0,
-    competitions: 0,
-    participated: 0,
-  });
-
-  const targetStats = {
-    members: 40,
-    competitions: 8,
-    participated: 15,
-  };
-
-  const statsRef = useRef(null);
-  const isInView = useInView(statsRef, {
-    threshold: 0.2,
-    triggerOnce: true,
-  });
-
-  useEffect(() => {
-    if (isInView) {
-      const duration = 1200;
-      const interval = 40;
-      const steps = duration / interval;
-
-      const timer = setInterval(() => {
-        setStats((prev) => {
-          const newStats = {};
-          let allComplete = true;
-
-          Object.keys(targetStats).forEach((key) => {
-            const target = targetStats[key];
-            const current = prev[key];
-            const increment = target / steps;
-
-            if (current < target) {
-              newStats[key] = Math.min(current + increment, target);
-              allComplete = false;
-            } else {
-              newStats[key] = target;
-            }
-          });
-
-          if (allComplete) {
-            clearInterval(timer);
-          }
-
-          return { ...prev, ...newStats };
-        });
-      }, interval);
-
-      return () => clearInterval(timer);
-    }
-  }, [isInView]);
-
   // Enhanced animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -237,73 +182,7 @@ const AboutTeam = () => {
           </Link>
         </motion.div>
 
-        {/* Statistics Section */}
-        <motion.div
-          className="space-y-8"
-          ref={statsRef}
-          variants={itemVariants}
-        >
-          <div className="text-center">
-            <h2 className="font-display text-3xl font-bold text-white mb-4">
-              Our Impact in Numbers
-            </h2>
-            <p className="font-body text-lg text-gray-400 max-w-2xl mx-auto">
-              These numbers represent our commitment to excellence and
-              continuous growth in the field of drone technology.
-            </p>
-          </div>
-
-          {/* Enhanced Stats Grid */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Team Members */}
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
-              variants={statsCardVariants}
-            >
-              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
-                <FaUsers className="w-6 h-6 text-white" />
-              </div>
-              <div className="font-ui font-bold text-4xl text-white mb-2">
-                {Math.round(stats.members)}+
-              </div>
-              <div className="font-body text-gray-400 font-medium">
-                Dedicated Team Members
-              </div>
-            </motion.div>
-
-            {/* Competitions Won */}
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
-              variants={statsCardVariants}
-            >
-              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
-                <FaTrophy className="w-6 h-6 text-white" />
-              </div>
-              <div className="font-ui font-bold text-4xl text-white mb-2">
-                {Math.round(stats.competitions)}
-              </div>
-              <div className="font-body text-gray-400 font-medium">
-                Competitions Won
-              </div>
-            </motion.div>
-
-            {/* Events Participated */}
-            <motion.div
-              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center transform-gpu will-change-transform transition-transform duration-100 ease-out hover:scale-[1.03] hover:shadow-md hover:shadow-white/5 hover:border-orange-500"
-              variants={statsCardVariants}
-            >
-              <div className="w-14 h-14 bg-[#ff8c00] rounded-xl flex items-center justify-center mx-auto mb-4">
-                <PiDroneFill className="w-6 h-6 text-white" />
-              </div>
-              <div className="font-ui font-bold text-4xl text-white mb-2">
-                {Math.round(stats.participated)}+
-              </div>
-              <div className="font-body text-gray-400 font-medium">
-                Events Participated
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+        {/* Stats moved to About page */}
       </motion.div>
     </section>
   );

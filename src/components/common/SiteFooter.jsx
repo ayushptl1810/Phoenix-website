@@ -45,6 +45,7 @@ const SiteFooter = ({
   const defaultNav = useMemo(
     () => [
       { label: "Home", href: "/" },
+      { label: "About", href: "/about" },
       { label: "Fleet", href: "/fleet" },
       { label: "Team", href: "/team" },
       { label: "Achievements", href: "/achievements" },

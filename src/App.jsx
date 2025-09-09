@@ -7,6 +7,7 @@ import Team from "./pages/Team";
 import Fleet from "./pages/Fleet";
 import BeamsBackground from "./components/common/BeamsBackground";
 import SiteFooter from "./components/common/SiteFooter";
+import About from "./pages/About";
 
 const App = () => {
   const location = useLocation();
@@ -62,6 +63,7 @@ const App = () => {
             <Route path="/achievements" element={<Achievements />} />
             <Route path="/fleet" element={<Fleet />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/about" element={<About />} />
             <Route
               path="*"
               element={

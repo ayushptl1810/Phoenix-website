@@ -179,13 +179,13 @@ const HeroContent = () => {
             </motion.button>
           </Link>
 
-          <Link to="/team">
+          <Link to="/about">
             <motion.button
               className="px-8 py-4 border-2 border-gray-300 bg-gray-300 text-black font-ui font-bold text-lg rounded-lg transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
               variants={buttonVariantsRight}
               whileHover="hover"
             >
-              Meet The Team
+              About Us
             </motion.button>
           </Link>
         </div>
