@@ -61,6 +61,12 @@ const Navbar = ({ currentPage = "Home" }) => {
           >
             Achievements
           </Link>
+          <Link
+            to="/support"
+            className="px-4 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors ui-text"
+          >
+            Support Us
+          </Link>
         </nav>
       </div>
     </header>

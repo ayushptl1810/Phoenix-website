@@ -8,6 +8,7 @@ import Fleet from "./pages/Fleet";
 import BeamsBackground from "./components/common/BeamsBackground";
 import SiteFooter from "./components/common/SiteFooter";
 import About from "./pages/About";
+import Support from "./pages/Support";
 
 const App = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const App = () => {
             <Route path="/fleet" element={<Fleet />} />
             <Route path="/team" element={<Team />} />
             <Route path="/about" element={<About />} />
+            <Route path="/support" element={<Support />} />
             <Route
               path="*"
               element={

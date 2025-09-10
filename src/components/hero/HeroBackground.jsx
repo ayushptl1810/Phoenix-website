@@ -5,7 +5,7 @@ import heroImageUrl from "../../assets/HeroImage.png";
 
 function HeroBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden bg-black">
       <ScrollExpandMedia
         mediaType="video"
         mediaSrc={heroVideoUrl}

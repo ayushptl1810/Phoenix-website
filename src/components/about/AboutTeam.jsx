@@ -69,9 +69,10 @@ const AboutTeam = () => {
   };
 
   return (
-    <section className="min-h-screen py-16">
+    <section className="min-h-screen bg-black relative overflow-hidden py-16">
+      <div className="absolute inset-0 bg-black" />
       <motion.div
-        className="max-w-7xl mx-auto px-6"
+        className="relative z-10 max-w-7xl mx-auto px-6"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
