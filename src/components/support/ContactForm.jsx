@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 const FieldControl = ({ field, value, errors, onChange }) => {
   const f = field;
@@ -19,13 +20,15 @@ const FieldControl = ({ field, value, errors, onChange }) => {
         {f.options.map((opt) => {
           const active = value === opt;
           return (
-            <label
+            <motion.label
               key={opt}
               className={`cursor-pointer ui-text text-sm px-3 py-2 rounded-full border transition-colors ${
                 active
                   ? "border-orange-500 bg-orange-500/10 text-white"
                   : "border-white/20 bg-transparent text-gray-200 hover:border-orange-500/60"
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <input
                 type="radio"
@@ -36,7 +39,7 @@ const FieldControl = ({ field, value, errors, onChange }) => {
                 className="sr-only"
               />
               {opt}
-            </label>
+            </motion.label>
           );
         })}
       </div>
@@ -176,16 +179,62 @@ const ContactForm = ({ config, onSubmit }) => {
     }
   };
 
+  // Standardized animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
+
   return (
-    <section id="contact" className="container mx-auto px-6 max-w-5xl py-12">
-      <div className="text-center">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2 reveal">
+    <motion.section
+      id="contact"
+      className="container mx-auto px-6 max-w-5xl py-12"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      <motion.div className="text-center" variants={itemVariants}>
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">
           {config.heading}
         </h2>
-        <p className="text-gray-300 mb-6 reveal">{config.subheading}</p>
-      </div>
+        <p className="text-gray-300 mb-6">{config.subheading}</p>
+      </motion.div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-6 reveal">
+      <motion.div
+        className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-6"
+        variants={formVariants}
+      >
         <div className="pointer-events-none absolute left-0 inset-y-0 w-1 rounded-l-2xl bg-gradient-to-b from-orange-500/60 via-orange-400/30 to-transparent" />
 
         <input
@@ -233,22 +282,29 @@ const ContactForm = ({ config, onSubmit }) => {
           </div>
 
           <div className="mt-6 flex items-center gap-3">
-            <button
+            <motion.button
               type="submit"
               disabled={submitting}
               className="ui-text inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm border transition-all border-orange-500 bg-orange-500/10 text-white hover:bg-orange-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {submitting ? "Sending..." : config.submitLabel}
-            </button>
+            </motion.button>
             {submitted && (
-              <span className="text-sm text-green-300">
+              <motion.span
+                className="text-sm text-green-300"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 Thanks! We will get back to you shortly.
-              </span>
+              </motion.span>
             )}
           </div>
         </form>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 

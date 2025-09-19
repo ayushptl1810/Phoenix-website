@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
 import BeamsBackground from "../components/common/BeamsBackground";
 import SupportHero from "../components/support/SupportHero";
@@ -41,23 +42,66 @@ const Support = () => {
     alert("Thanks! We will get back to you shortly.");
   };
 
+  // Standardized animation variants
+  const pageVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask">
+    <motion.div
+      className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask"
+      variants={pageVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <BeamsBackground intensity="medium" />
       <Navbar currentPage="Support" />
 
-      <SupportHero data={supportHero} />
-      <WaysToSupport items={waysToSupport} />
-      <Wishlist groups={inKindWishlist} />
-      <SponsorsStrip
-        heading={currentSponsors.heading}
-        note={currentSponsors.note}
-        logos={sponsorLogos}
-      />
-      <HowToSponsor />
-      <FAQ items={faq} />
-      <ContactForm config={contactConfig} onSubmit={handleContactSubmit} />
-    </div>
+      <motion.div variants={sectionVariants}>
+        <SupportHero data={supportHero} />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <WaysToSupport items={waysToSupport} />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <Wishlist groups={inKindWishlist} />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <SponsorsStrip
+          heading={currentSponsors.heading}
+          note={currentSponsors.note}
+          logos={sponsorLogos}
+        />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <HowToSponsor />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <FAQ items={faq} />
+      </motion.div>
+      <motion.div variants={sectionVariants}>
+        <ContactForm config={contactConfig} onSubmit={handleContactSubmit} />
+      </motion.div>
+    </motion.div>
   );
 };
 

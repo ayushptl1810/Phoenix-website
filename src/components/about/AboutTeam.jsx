@@ -170,7 +170,10 @@ const AboutTeam = () => {
         </div>
 
         {/* CTA Button (below grid) */}
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div
+          variants={itemVariants}
+          className="mb-2 flex justify-center"
+        >
           <Link to="/team">
             <motion.button
               className="group relative px-8 py-4 bg-gradient-to-r from-[#ff8c00] to-orange-600 text-white font-ui font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#ff8c00]/25"

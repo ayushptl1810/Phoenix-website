@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { motion } from "framer-motion";
 import DroneCard from "./DroneCard";
 
 // Load media from assets/Fleet
@@ -119,11 +120,25 @@ const FleetGrid = ({ filters = { statuses: [], types: [] } }) => {
   }, [filters]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-      {drones.map((d) => (
-        <DroneCard key={d.id} drone={d} />
+    <motion.div
+      className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.2,
+          },
+        },
+      }}
+    >
+      {drones.map((d, index) => (
+        <DroneCard key={d.id} drone={d} index={index} />
       ))}
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
 import BeamsBackground from "../components/common/BeamsBackground";
 import FleetGrid from "../components/fleet/FleetGrid";
@@ -29,44 +30,99 @@ const Fleet = () => {
     });
   };
 
+  // Standardized animation variants
+  const pageVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
+
+  const heroVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask">
+    <motion.div
+      className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask"
+      variants={pageVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <BeamsBackground intensity="medium" />
       <Navbar currentPage="Fleet" />
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <motion.section
+        className="relative overflow-hidden"
+        variants={sectionVariants}
+      >
         <div className="absolute inset-0" />
         <div className="relative z-10 container mx-auto px-6 py-16">
           <div className="text-center">
-            <h1 className="font-display text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent leading-[1.1]">
+            <motion.h1
+              className="font-display text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent leading-[1.1]"
+              variants={heroVariants}
+            >
               Our Fleet
-            </h1>
-            <p className="font-body text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p
+              className="font-body text-lg md:text-xl text-gray-300 max-w-3xl mx-auto"
+              variants={heroVariants}
+            >
               Two current drones and five retired builds. Purpose-built for
               racing, mapping and research.
-            </p>
+            </motion.p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Filters */}
-      <section className="container mx-auto px-6">
+      <motion.section
+        className="container mx-auto px-6"
+        variants={sectionVariants}
+      >
         <div className="flex flex-wrap items-center justify-center gap-3 ui-text mb-8">
-          <button
+          <motion.button
             onClick={() => toggleFilter("__all__")}
             className={`px-3 py-1 rounded-full text-sm border transition-colors ${
               selectedFilters.size === 0
                 ? "bg-orange-500 text-white border-orange-500"
                 : "bg-gray-800 text-gray-300 border-gray-700 hover:text-white hover:border-orange-500/70"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             All
-          </button>
+          </motion.button>
           {allChips.map((chip) => {
             const active = selectedFilters.has(chip.key);
             return (
-              <button
+              <motion.button
                 key={chip.key}
                 onClick={() => toggleFilter(chip.key)}
                 className={`px-3 py-1 rounded-full text-sm border transition-colors ${
@@ -74,16 +130,22 @@ const Fleet = () => {
                     ? "bg-orange-500 text-white border-orange-500"
                     : "bg-gray-800 text-gray-300 border-gray-700 hover:text-white hover:border-orange-500/70"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {chip.key}
-              </button>
+              </motion.button>
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       {/* Grid */}
-      <main id="fleet-grid" className="container mx-auto px-6 pb-16">
+      <motion.main
+        id="fleet-grid"
+        className="container mx-auto px-6 pb-16"
+        variants={sectionVariants}
+      >
         <FleetGrid
           filters={{
             statuses: [
@@ -96,8 +158,8 @@ const Fleet = () => {
             ],
           }}
         />
-      </main>
-    </div>
+      </motion.main>
+    </motion.div>
   );
 };
 

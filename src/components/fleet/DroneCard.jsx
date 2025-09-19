@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const DroneCard = ({ drone }) => {
+const DroneCard = ({ drone, index }) => {
   const [expanded, setExpanded] = useState(false);
   const isCurrent = drone.status === "current";
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+      },
+    },
+  };
 
   return (
     <motion.div
       className={`group relative overflow-hidden rounded-2xl border transition-all bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/30`}
+      variants={cardVariants}
       whileHover={{ y: -6 }}
     >
       {/* Media */}
