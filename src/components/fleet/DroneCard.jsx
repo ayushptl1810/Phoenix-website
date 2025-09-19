@@ -7,7 +7,7 @@ const DroneCard = ({ drone }) => {
 
   return (
     <motion.div
-      className={`group relative overflow-hidden rounded-2xl border transition-all bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 hover:border-orange-400/70 hover:shadow-xl hover:shadow-orange-500/20`}
+      className={`group relative overflow-hidden rounded-2xl border transition-all bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/30`}
       whileHover={{ y: -6 }}
     >
       {/* Media */}

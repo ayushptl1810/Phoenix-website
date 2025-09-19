@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import TeamLogo from "../../assets/Logo.png";
 
 // Utility: convert file name to display name (e.g., "SolidWorks_Logo.png" -> "SolidWorks Logo")
@@ -160,22 +161,22 @@ const SiteFooter = ({
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 text-sm text-gray-300">
           {/* Left: Team logo + nav links */}
           <div className="flex items-center gap-4 min-w-0">
-            <a href="/" className="inline-flex items-center">
+            <Link to="/" className="inline-flex items-center">
               <img
                 src={TeamLogo}
                 alt="DJS Phoenix"
                 className="h-8 md:h-9 w-auto object-contain"
               />
-            </a>
+            </Link>
             <nav className="flex items-center gap-4 ui-text">
               {linksToRender.map((link) => (
-                <a
+                <Link
                   key={link.href}
-                  href={link.href}
+                  to={link.href}
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

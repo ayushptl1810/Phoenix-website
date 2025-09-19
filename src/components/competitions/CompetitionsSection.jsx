@@ -10,6 +10,13 @@ import { GiLaurelCrown } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+// Get accent color based on status
+function getAccentColor(status) {
+  return status === "completed"
+    ? { hue: 120, saturation: 90 }
+    : { hue: 200, saturation: 90 }; // green for completed, blue for upcoming
+}
+
 const CompetitionsSection = () => {
   const competitions = [
     {
@@ -151,7 +158,7 @@ const CompetitionsSection = () => {
 
           {/* Progress Indicator */}
           <div className="mt-8 max-w-md mx-auto">
-            <div className="flex justify-between text-sm text-gray-400 mb-2">
+            <div className="ui-text flex justify-between text-sm text-gray-400 mb-2">
               <span>Progress</span>
               <span>
                 {completedCount}/{totalCount} Completed
@@ -190,112 +197,89 @@ const CompetitionsSection = () => {
 
         {/* Competitions Grid */}
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
-          {competitions.map((competition, index) => (
-            <motion.div
-              key={competition.id}
-              className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 ${
-                competition.status === "completed"
-                  ? "bg-gradient-to-br from-gray-800 to-gray-900 border-green-500/50 hover:border-green-400/70 hover:shadow-xl hover:shadow-green-500/20"
-                  : "bg-gradient-to-br from-gray-800 to-gray-900 border-blue-500/50 hover:border-blue-400/70 hover:shadow-xl hover:shadow-blue-500/20"
-              }`}
-              variants={cardVariants}
-              whileHover="hover"
-            >
-              {/* Status Badge */}
-              <motion.div
-                className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-ui font-bold ${
-                  competition.status === "completed"
-                    ? "bg-green-500/30 text-green-300 border border-green-400/50"
-                    : "bg-blue-500/30 text-blue-300 border border-blue-400/50"
-                }`}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                {competition.status === "completed" ? (
-                  <span className="flex items-center space-x-1">
-                    <FaCheckCircle className="w-3 h-3" />
-                    <span>Completed</span>
-                  </span>
-                ) : (
-                  <span className="flex items-center space-x-1">
-                    <FaClock className="w-3 h-3" />
-                    <span>Upcoming</span>
-                  </span>
-                )}
-              </motion.div>
+          {competitions.map((competition, index) => {
+            const accentColor = getAccentColor(competition.status);
 
-              {/* Subtle glow effect */}
-              <div
-                className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                  competition.status === "completed"
-                    ? "bg-gradient-to-br from-green-500/5 to-transparent"
-                    : "bg-gradient-to-br from-blue-500/5 to-transparent"
-                }`}
-              ></div>
-
-              {/* Content */}
-              <div className="relative p-8 z-10">
+            const CompetitionCard = () => {
+              return (
                 <motion.div
-                  className="flex items-start space-x-4 mb-4"
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3 }}
+                  key={competition.id}
+                  className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-orange-500/60 transition-all hover:shadow-2xl hover:shadow-orange-500/30 min-h-56 md:min-h-64 p-4 w-full"
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.35 }}
+                  whileHover={{ y: -4 }}
                 >
-                  <motion.div
-                    className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${
-                      competition.status === "completed"
-                        ? "bg-green-500/30 text-green-300"
-                        : "bg-blue-500/30 text-blue-300"
-                    }`}
-                    whileHover={{ rotate: 5, scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <competition.icon className="w-6 h-6" />
-                  </motion.div>
-                  <div className="flex-1">
-                    <h3 className="font-display text-2xl font-bold text-white mb-2">
-                      {competition.name}
-                    </h3>
-                    <div className="flex items-center space-x-3 text-sm text-gray-400 mb-3">
-                      <FaCalendarAlt className="w-4 h-4" />
-                      <span>{competition.date}</span>
-                      <span className="w-1 h-1 bg-gray-500 rounded-full"></span>
-                      <span>{competition.category}</span>
-                    </div>
+                  {/* Left accent bar */}
+                  <div
+                    className="absolute left-0 top-0 bottom-0 w-[3px]"
+                    style={{
+                      background: `linear-gradient(180deg, hsla(${
+                        accentColor.hue
+                      },${accentColor.saturation}%,60%,0.9), hsla(${
+                        (accentColor.hue + 25) % 360
+                      },${accentColor.saturation}%,60%,0.9))`,
+                    }}
+                  />
+
+                  {/* Shine sweep */}
+                  <div className="pointer-events-none absolute inset-0">
+                    <div className="absolute -inset-x-24 -inset-y-10 rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
+
+                  {/* Content */}
+                  <div className="relative z-10 p-6 md:p-7">
+                    <div className="flex items-center gap-4 md:gap-5 mb-4">
+                      <div>
+                        <div className="font-display text-xl md:text-2xl font-bold text-white leading-snug">
+                          {competition.name}
+                        </div>
+                        <div className="ui-text text-xs md:text-sm text-neutral-400 mt-0.5">
+                          {competition.date}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-3 flex items-center gap-2 ui-text">
+                      <span
+                        className="ui-text inline-block text-[10px] md:text-xs tracking-wide px-2.5 py-0.5 rounded-full text-white"
+                        style={{
+                          background: `linear-gradient(90deg, hsla(${
+                            accentColor.hue
+                          },90%,50%,0.9), hsla(${
+                            (accentColor.hue + 30) % 360
+                          },90%,55%,0.9))`,
+                        }}
+                      >
+                        {competition.category}
+                      </span>
+                      <span className="ui-text inline-block text-[10px] md:text-xs tracking-wide px-2.5 py-0.5 rounded-full border border-neutral-700 text-neutral-300">
+                        {competition.status}
+                      </span>
+                    </div>
+                    <p className="font-body text-[15px] md:text-base text-neutral-200 leading-7">
+                      {competition.description}
+                    </p>
+
+                    {/* Achievement Badge for Completed */}
+                    {competition.achievement && (
+                      <div className="mt-4 inline-flex items-center space-x-2 px-4 py-2 bg-green-500/20 border border-green-400/30 rounded-full">
+                        <GiLaurelCrown className="w-4 h-4 text-green-400" />
+                        <span className="font-ui font-bold text-green-400 text-sm">
+                          {competition.achievement}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Subtle neon edge on hover */}
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-hover:ring-1 ring-orange-400/50 transition-all" />
                 </motion.div>
+              );
+            };
 
-                <p className="font-body text-gray-300 mb-4 leading-relaxed">
-                  {competition.description}
-                </p>
-
-                {/* Achievement Badge for Completed */}
-                {competition.achievement && (
-                  <motion.div
-                    className="inline-flex items-center space-x-2 px-4 py-2 bg-green-500/20 border border-green-400/30 rounded-full"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <GiLaurelCrown className="w-4 h-4 text-green-400" />
-                    <span className="font-ui font-bold text-green-400 text-sm">
-                      {competition.achievement}
-                    </span>
-                  </motion.div>
-                )}
-              </div>
-
-              {/* Enhanced Hover Glow Effect */}
-              <motion.div
-                className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                  competition.status === "completed"
-                    ? "bg-gradient-to-r from-green-500/10 to-emerald-500/10"
-                    : "bg-gradient-to-r from-blue-500/10 to-indigo-500/10"
-                }`}
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              ></motion.div>
-            </motion.div>
-          ))}
+            return <CompetitionCard key={competition.id} />;
+          })}
         </div>
       </motion.div>
     </section>

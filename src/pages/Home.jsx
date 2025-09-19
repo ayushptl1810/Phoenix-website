@@ -20,7 +20,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="bg-black">
       {/* Hero Section */}
       <section className="relative min-h-screen">
         <HeroBackground />
@@ -28,24 +28,10 @@ const Home = () => {
       </section>
 
       {/* About Team Section */}
-      <motion.section
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <AboutTeam />
-      </motion.section>
+      <AboutTeam />
 
       {/* Competitions Section */}
-      <motion.section
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <CompetitionsSection />
-      </motion.section>
+      <CompetitionsSection />
     </div>
   );
 };

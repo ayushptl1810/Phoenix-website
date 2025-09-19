@@ -22,15 +22,21 @@ const Timeline = ({ data }) => {
     const flat = source.some((entry) => Array.isArray(entry))
       ? source.flat(Infinity)
       : source;
+
+    let globalIndex = 0; // Track global index across all cards
+
     return (flat || []).filter(Boolean).map((group) => ({
       title: String(group.year),
       count: (group.achievements || []).length,
       content: (
         <div>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-12">
-            {(group.achievements || []).map((a, idx) => (
-              <TimelineCard key={a.id} item={a} index={idx} />
-            ))}
+            {(group.achievements || []).map((a, idx) => {
+              const currentGlobalIndex = globalIndex++;
+              return (
+                <TimelineCard key={a.id} item={a} index={currentGlobalIndex} />
+              );
+            })}
           </div>
         </div>
       ),
@@ -68,7 +74,7 @@ const Timeline = ({ data }) => {
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <div className="w-full font-sans" ref={containerRef}>
+    <div className="w-full" ref={containerRef}>
       <div ref={ref} className="relative max-w-8xl mx-auto pb-16 md:pb-20">
         {resolvedData.map((item, index) => (
           <div
@@ -127,7 +133,7 @@ const Timeline = ({ data }) => {
               <h3 className="md:hidden block font-display text-2xl text-left font-bold text-neutral-400">
                 {item.title}
               </h3>
-              <div className="md:hidden mb-4 text-xs text-neutral-500">
+              <div className="md:hidden mb-4 ui-text text-xs text-neutral-500">
                 {item.count} {item.count === 1 ? "achievement" : "achievements"}
               </div>
               {item.content}

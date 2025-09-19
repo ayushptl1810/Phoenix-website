@@ -41,8 +41,12 @@ const TimelineCard = ({ item, index }) => {
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 12, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
+      {...(index === 0
+        ? { animate: { opacity: 1, y: 0, scale: 1 } }
+        : {
+            whileInView: { opacity: 1, y: 0, scale: 1 },
+            viewport: { once: true, amount: 0.3 },
+          })}
       transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.25) }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
@@ -108,7 +112,7 @@ const TimelineCard = ({ item, index }) => {
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="mt-3 pt-3 border-t border-neutral-700"
             >
-              <div className="text-xs text-neutral-300 flex flex-wrap gap-4">
+              <div className="ui-text text-xs text-neutral-300 flex flex-wrap gap-4">
                 {item.category && (
                   <span className="inline-flex items-center gap-2">
                     <span

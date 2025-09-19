@@ -46,15 +46,6 @@ const Fleet = () => {
               Two current drones and five retired builds. Purpose-built for
               racing, mapping and research.
             </p>
-            <div className="mt-6">
-              <a
-                href="#fleet-grid"
-                className="ui-text inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm border transition-all border-orange-500 bg-orange-500/10 text-white hover:bg-orange-500/20"
-              >
-                Browse the fleet
-                <span aria-hidden>↓</span>
-              </a>
-            </div>
           </div>
         </div>
       </section>
