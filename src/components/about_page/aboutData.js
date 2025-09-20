@@ -20,12 +20,6 @@ export const storyParagraphs = [
 
 export const departments = [
   {
-    iconKey: "marketing",
-    title: "Marketing",
-    description:
-      "Creatives & Marketing\n\n• Public relations, branding and promotional activities for competitions and online platforms.\n• Creatives: presentations, promotional videos and all visual content to represent the team.\n• Marketing: sponsorships and funding — outreach, client relationships and agreement handling.\n• Social media on Instagram, LinkedIn, Facebook and YouTube — posts, reels, videos and stories.\n• Learn tools like Canva and professional video editors.\n• Learn sponsor outreach: cold emails/calls, building a marketing database and converting leads.",
-  },
-  {
     iconKey: "mechanical",
     title: "Mechanical",
     description:
@@ -42,6 +36,12 @@ export const departments = [
     title: "Coding",
     description:
       "The Coding Department develops software for autonomous flight and perception.\n\n• Python scripts for flight control (e.g., pymavlink) and mission logic.\n• Vision pipelines in OpenCV for object detection and safe landing spot identification.\n• ROS to orchestrate communication between modules for a modular, efficient system.\n• ArduPilot SITL to simulate without hardware; Unreal Engine for realistic scenarios.\n• Training on pymavlink, MAVSDK, OpenCV, ROS, Unreal Engine and ArduPilot SITL.",
+  },
+  {
+    iconKey: "marketing",
+    title: "Marketing",
+    description:
+      "Creatives & Marketing\n\n• Public relations, branding and promotional activities for competitions and online platforms.\n• Creatives: presentations, promotional videos and all visual content to represent the team.\n• Marketing: sponsorships and funding — outreach, client relationships and agreement handling.\n• Social media on Instagram, LinkedIn, Facebook and YouTube — posts, reels, videos and stories.\n• Learn tools like Canva and professional video editors.\n• Learn sponsor outreach: cold emails/calls, building a marketing database and converting leads.",
   },
 ];
 

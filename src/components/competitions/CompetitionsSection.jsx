@@ -148,37 +148,15 @@ const CompetitionsSection = () => {
         {/* Header */}
         <motion.div className="text-center mb-8" variants={headerVariants}>
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
-            This Year's
-            <span className="text-[#ff8c00]"> Competitions</span>
+            Plans for
+            <span className="block text-3xl md:text-3xl text-[#ff8c00] font-bold mt-2">
+              2024-2025
+            </span>
           </h2>
           <p className="font-body text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             Showcasing our journey through innovation challenges and
             technological breakthroughs
           </p>
-
-          {/* Progress Indicator */}
-          <div className="mt-8 max-w-md mx-auto">
-            <div className="ui-text flex justify-between text-sm text-gray-400 mb-2">
-              <span>Progress</span>
-              <span>
-                {completedCount}/{totalCount} Completed
-              </span>
-            </div>
-            <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
-              <motion.div
-                className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full origin-left"
-                style={{ width: `${progressPercentage}%` }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 1.5,
-                  ease: "easeOut",
-                  delay: 0.5,
-                }}
-              ></motion.div>
-            </div>
-          </div>
 
           <motion.div
             className="mt-6 flex justify-center"

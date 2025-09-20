@@ -6,10 +6,10 @@ const clipLeft = "polygon(0 0, 100% 0, 85% 100%, 0% 100%)";
 const clipRight = "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)";
 
 const iconMap = {
-  marketing: FaBullhorn,
   mechanical: FaCogs,
   electronics: FaMicrochip,
   coding: FaCode,
+  marketing: FaBullhorn,
 };
 
 const Row = ({ item, index }) => {
@@ -17,7 +17,17 @@ const Row = ({ item, index }) => {
   const imageClip = isEven ? clipLeft : clipRight;
 
   return (
-    <div className="w-full">
+    <motion.div
+      className="w-full"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+        delay: index * 0.1,
+      }}
+    >
       <div
         className={`grid grid-cols-1 md:grid-cols-2 items-stretch rounded-2xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/15 hover:border-white/40 transition-colors`}
       >
@@ -69,7 +79,7 @@ const Row = ({ item, index }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -79,7 +89,13 @@ const DepartmentShowcase = ({ items = [], fallbackImage }) => {
   return (
     <section className="py-16">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-10">
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.25, 0, 1] }}
+        >
           <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
             Departments Overview
           </h2>
@@ -87,7 +103,7 @@ const DepartmentShowcase = ({ items = [], fallbackImage }) => {
             Four pillars that power our research, innovation and competition
             success.
           </p>
-        </div>
+        </motion.div>
       </div>
       <div className="max-w-7xl mx-auto px-6 space-y-10">
         {safeItems.map((raw, idx) => {

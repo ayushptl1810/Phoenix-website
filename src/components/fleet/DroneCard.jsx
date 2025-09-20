@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { defaultDrones } from "./DroneData";
 
 const DroneCard = ({ drone, index }) => {
   const [expanded, setExpanded] = useState(false);

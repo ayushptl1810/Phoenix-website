@@ -5,30 +5,13 @@ import BeamsBackground from "../components/common/BeamsBackground";
 import FleetGrid from "../components/fleet/FleetGrid";
 
 const Fleet = () => {
-  // Single multi-select across statuses and types
-  const [selectedFilters, setSelectedFilters] = useState(new Set());
+  // Year-based filter
+  const [selectedYear, setSelectedYear] = useState("2024-2025");
 
-  const allChips = useMemo(
-    () => [
-      { key: "Current", group: "status" },
-      { key: "Retired", group: "status" },
-      { key: "Racing", group: "type" },
-      { key: "Surveillance", group: "type" },
-      { key: "Package Delivery", group: "type" },
-      { key: "Recon", group: "type" },
-    ],
-    []
-  );
-
-  const toggleFilter = (key) => {
-    setSelectedFilters((prev) => {
-      const next = new Set(prev);
-      if (key === "__all__") return new Set();
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
+  const yearOptions = [
+    { key: "pre-2024", label: "Pre-2024" },
+    { key: "2024-2025", label: "2024-2025" },
+  ];
 
   // Standardized animation variants
   const pageVariants = {
@@ -101,42 +84,37 @@ const Fleet = () => {
         </div>
       </motion.section>
 
-      {/* Filters */}
+      {/* Year Filter Tabs */}
       <motion.section
         className="container mx-auto px-6"
         variants={sectionVariants}
       >
-        <div className="flex flex-wrap items-center justify-center gap-3 ui-text mb-8">
-          <motion.button
-            onClick={() => toggleFilter("__all__")}
-            className={`px-3 py-1 rounded-full text-sm border transition-colors ${
-              selectedFilters.size === 0
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-gray-800 text-gray-300 border-gray-700 hover:text-white hover:border-orange-500/70"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            All
-          </motion.button>
-          {allChips.map((chip) => {
-            const active = selectedFilters.has(chip.key);
-            return (
-              <motion.button
-                key={chip.key}
-                onClick={() => toggleFilter(chip.key)}
-                className={`px-3 py-1 rounded-full text-sm border transition-colors ${
-                  active
-                    ? "bg-orange-500 text-white border-orange-500"
-                    : "bg-gray-800 text-gray-300 border-gray-700 hover:text-white hover:border-orange-500/70"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {chip.key}
-              </motion.button>
-            );
-          })}
+        <div className="flex justify-center mb-8">
+          <div className="flex bg-gray-800/50 rounded-xl p-1 border border-gray-700/50">
+            {yearOptions.map((year) => {
+              const isActive = selectedYear === year.key;
+              return (
+                <motion.button
+                  key={year.key}
+                  onClick={() => setSelectedYear(year.key)}
+                  className={`relative px-6 py-3 text-sm font-medium transition-all duration-300 rounded-lg cursor-pointer ${
+                    isActive ? "text-white" : "text-gray-400 hover:text-white"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-orange-500 rounded-lg shadow-lg"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                  <span className="relative z-10">{year.label}</span>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
       </motion.section>
 
@@ -146,18 +124,7 @@ const Fleet = () => {
         className="container mx-auto px-6 pb-16"
         variants={sectionVariants}
       >
-        <FleetGrid
-          filters={{
-            statuses: [
-              ...["Current", "Retired"].filter((k) => selectedFilters.has(k)),
-            ],
-            types: [
-              ...["Racing", "Surveillance"].filter((k) =>
-                selectedFilters.has(k)
-              ),
-            ],
-          }}
-        />
+        <FleetGrid selectedYear={selectedYear} />
       </motion.main>
     </motion.div>
   );

@@ -15,7 +15,7 @@ const Timeline = ({ data }) => {
 
   // Normalize achievements (supports nested arrays) and build sections
   const resolvedData = useMemo(() => {
-    if (Array.isArray(data) && data.length > 0) return data;
+    if (Array.isArray(data) && data.length > 0) return data.reverse();
     const source = Array.isArray(defaultAchievements)
       ? defaultAchievements
       : [];
@@ -25,22 +25,29 @@ const Timeline = ({ data }) => {
 
     let globalIndex = 0; // Track global index across all cards
 
-    return (flat || []).filter(Boolean).map((group) => ({
-      title: String(group.year),
-      count: (group.achievements || []).length,
-      content: (
-        <div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-12">
-            {(group.achievements || []).map((a, idx) => {
-              const currentGlobalIndex = globalIndex++;
-              return (
-                <TimelineCard key={a.id} item={a} index={currentGlobalIndex} />
-              );
-            })}
+    return (flat || [])
+      .filter(Boolean)
+      .reverse()
+      .map((group) => ({
+        title: String(group.year),
+        count: (group.achievements || []).length,
+        content: (
+          <div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-12">
+              {(group.achievements || []).map((a, idx) => {
+                const currentGlobalIndex = globalIndex++;
+                return (
+                  <TimelineCard
+                    key={a.id}
+                    item={a}
+                    index={currentGlobalIndex}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      ),
-    }));
+        ),
+      }));
   }, [data, defaultAchievements]);
 
   // Measure track container height for the vertical progress
