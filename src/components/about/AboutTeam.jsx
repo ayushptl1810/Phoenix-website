@@ -69,7 +69,7 @@ const AboutTeam = () => {
   };
 
   return (
-    <section className="min-h-screen bg-black relative overflow-hidden py-16">
+    <section className="min-h-screen bg-black relative overflow-hidden py-8">
       <div className="absolute inset-0 bg-black" />
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-6"
@@ -94,6 +94,23 @@ const AboutTeam = () => {
             A passionate team of students pushing the boundaries of aerial
             robotics and autonomous systems.
           </p>
+        </motion.div>
+
+        {/* CTA Button (above grid) */}
+        <motion.div
+          variants={itemVariants}
+          className="mb-12 flex justify-center"
+        >
+          <Link to="/team">
+            <motion.button
+              className="group relative px-8 py-4 bg-gradient-to-r from-[#ff8c00] to-orange-600 text-white font-ui font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#ff8c00]/25 cursor-pointer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10">Meet Our Team</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-[#ff8c00] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </motion.button>
+          </Link>
         </motion.div>
 
         {/* Main Content Grid: Mission | Image (row-span-2) / Vision */}
@@ -168,23 +185,6 @@ const AboutTeam = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* CTA Button (below grid) */}
-        <motion.div
-          variants={itemVariants}
-          className="mb-2 flex justify-center"
-        >
-          <Link to="/team">
-            <motion.button
-              className="group relative px-8 py-4 bg-gradient-to-r from-[#ff8c00] to-orange-600 text-white font-ui font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#ff8c00]/25 cursor-pointer"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="relative z-10">Meet Our Team</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-[#ff8c00] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </motion.button>
-          </Link>
-        </motion.div>
 
         {/* Stats moved to About page */}
       </motion.div>

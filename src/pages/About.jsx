@@ -9,6 +9,8 @@ import electronicsImg from "../assets/Department/elex.png";
 import mechImg from "../assets/Department/mech.png";
 import marketingImg from "../assets/Department/marketing.png";
 import StatsCounter from "../components/about_page/StatsCounter";
+import LocationMap from "../components/about_page/LocationMap";
+import { achievements as achievementsData } from "../components/achievements/competitionData";
 
 import {
   aboutHero,
@@ -41,6 +43,18 @@ const About = () => {
       },
     },
   };
+
+  // Compute Events Participated dynamically = total achievements - 1 (exclude Team Founded)
+  const totalAchievements = (
+    Array.isArray(achievementsData) ? achievementsData.flat(Infinity) : []
+  )
+    .filter((entry) => Array.isArray(entry.achievements))
+    .reduce((sum, entry) => sum + (entry.achievements?.length || 0), 0);
+  const eventsParticipated = Math.max(0, totalAchievements - 1);
+
+  const computedStats = stats.map((s) =>
+    s.label === "Events Participated" ? { ...s, target: eventsParticipated } : s
+  );
 
   return (
     <motion.div
@@ -83,7 +97,11 @@ const About = () => {
       </motion.div>
 
       <motion.div variants={sectionVariants}>
-        <StatsCounter items={stats} />
+        <StatsCounter items={computedStats} />
+      </motion.div>
+
+      <motion.div variants={sectionVariants}>
+        <LocationMap />
       </motion.div>
     </motion.div>
   );

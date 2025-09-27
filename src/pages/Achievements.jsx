@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import Timeline from "../components/achievements/Timeline";
 import Navbar from "../components/common/Navbar";
-import BeamsBackground from "../components/common/BeamsBackground";
 
 const Achievements = () => {
   // Standardized animation variants
@@ -48,8 +47,6 @@ const Achievements = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Ambient beams */}
-      <BeamsBackground intensity="medium" />
       {/* Top Nav */}
       <Navbar currentPage="Achievements" />
 

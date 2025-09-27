@@ -2,17 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ExpandableCardDemo } from "../components/team/ExpandableCardDemo";
 import Navbar from "../components/common/Navbar";
-import { HiSparkles, HiUsers, HiTrophy, HiAcademicCap } from "react-icons/hi2";
+import { HiSparkles } from "react-icons/hi2";
 
 const Team = () => {
-  // Team statistics data
-  const teamStats = [
-    { icon: HiUsers, value: "25+", label: "Team Members" },
-    { icon: HiTrophy, value: "15+", label: "Awards Won" },
-    { icon: HiAcademicCap, value: "4", label: "Departments" },
-    { icon: HiSparkles, value: "100%", label: "Passion" },
-  ];
-
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Top Nav */}
@@ -59,39 +51,11 @@ const Team = () => {
               conquered national and international competitions.
             </motion.p>
 
-            {/* Team Statistics */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mb-16"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {teamStats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500/20 to-orange-600/10 border border-orange-500/30 rounded-2xl mb-4">
-                    <stat.icon className="w-8 h-8 text-orange-400" />
-                  </div>
-                  <div className="font-display text-3xl md:text-4xl font-bold text-white mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="font-body text-sm text-gray-400 font-medium">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
             {/* Team Cards - Unified Section */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
               className="mt-16"
             >
               <ExpandableCardDemo />

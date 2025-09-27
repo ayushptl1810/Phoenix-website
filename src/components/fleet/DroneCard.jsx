@@ -6,23 +6,23 @@ const DroneCard = ({ drone, index }) => {
   const [expanded, setExpanded] = useState(false);
   const isCurrent = drone.status === "current";
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
-
   return (
     <motion.div
       className={`group relative overflow-hidden rounded-2xl border transition-all bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/30`}
-      variants={cardVariants}
-      whileHover={{ y: -6 }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.7,
+        ease: [0.25, 0.25, 0, 1],
+        delay: 0.6 + index * 0.15, // Wait for page stagger + individual card delay
+      }}
+      whileHover={{
+        y: -6,
+        transition: { duration: 0.1, ease: "easeOut" },
+      }}
+      style={{
+        transition: "transform 0.1s ease-out",
+      }}
     >
       {/* Media */}
       <div className="relative h-56 md:h-64 w-full overflow-hidden">

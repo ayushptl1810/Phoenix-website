@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
-import BeamsBackground from "../components/common/BeamsBackground";
 import FleetGrid from "../components/fleet/FleetGrid";
 
 const Fleet = () => {
@@ -20,7 +19,7 @@ const Fleet = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        delayChildren: 0.2,
+        delayChildren: 0.4, // Increased to account for App-level transition
       },
     },
   };
@@ -56,7 +55,6 @@ const Fleet = () => {
       initial="hidden"
       animate="visible"
     >
-      <BeamsBackground intensity="medium" />
       <Navbar currentPage="Fleet" />
 
       {/* Hero */}
@@ -119,13 +117,9 @@ const Fleet = () => {
       </motion.section>
 
       {/* Grid */}
-      <motion.main
-        id="fleet-grid"
-        className="container mx-auto px-6 pb-16"
-        variants={sectionVariants}
-      >
+      <main id="fleet-grid" className="container mx-auto px-6 pb-16">
         <FleetGrid selectedYear={selectedYear} />
-      </motion.main>
+      </main>
     </motion.div>
   );
 };

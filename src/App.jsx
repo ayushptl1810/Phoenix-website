@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
 import Team from "./pages/Team";
 import Fleet from "./pages/Fleet";
-import BeamsBackground from "./components/common/BeamsBackground";
 import SiteFooter from "./components/common/SiteFooter";
 import About from "./pages/About";
 import Support from "./pages/Support";
@@ -45,7 +44,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-black relative">
-      <BeamsBackground intensity="strong" />
       <AnimatePresence
         mode="wait"
         initial={false}

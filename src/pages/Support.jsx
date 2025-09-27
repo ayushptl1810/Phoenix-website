@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
-import BeamsBackground from "../components/common/BeamsBackground";
 import SupportHero from "../components/support/SupportHero";
 import WaysToSupport from "../components/support/WaysToSupport";
 import Wishlist from "../components/support/Wishlist";
@@ -73,13 +72,15 @@ const Support = () => {
       initial="hidden"
       animate="visible"
     >
-      <BeamsBackground intensity="medium" />
       <Navbar currentPage="Support" />
 
       <motion.div variants={sectionVariants}>
         <SupportHero data={supportHero} />
       </motion.div>
-      <motion.div variants={sectionVariants}>
+      <motion.div
+        variants={pageVariants}
+        className="container mx-auto px-6 max-w-5xl py-12"
+      >
         <WaysToSupport items={waysToSupport} />
       </motion.div>
       <motion.div variants={sectionVariants}>

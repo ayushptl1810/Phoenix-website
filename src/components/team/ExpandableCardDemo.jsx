@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FaLinkedin } from "react-icons/fa";
 import { coreTeamCards, juniorCoreCards } from "./teamData";
@@ -6,63 +6,6 @@ import { coreTeamCards, juniorCoreCards } from "./teamData";
 export function ExpandableCardDemo() {
   // Combine both core and junior core into one unified team
   const allTeamCards = [...coreTeamCards, ...juniorCoreCards];
-
-  // Define departments/sections
-  const departments = [
-    { id: "leadership", name: "LEADERSHIP" },
-    { id: "coding", name: "CODING" },
-    { id: "mechanical", name: "MECH" },
-    { id: "electronics", name: "ELEX" },
-    { id: "marketing", name: "MARKETING" },
-  ];
-
-  const [activeSection, setActiveSection] = useState("leadership");
-
-  // Filter cards based on active section
-  const getFilteredCards = () => {
-    return allTeamCards.filter((card) => {
-      const description = card.description.toLowerCase();
-      switch (activeSection) {
-        case "leadership":
-          return (
-            description.includes("captain") ||
-            description.includes("manager") ||
-            description.includes("head")
-          );
-        case "coding":
-          return (
-            description.includes("coding") ||
-            description.includes("software") ||
-            description.includes("ai") ||
-            description.includes("algorithm") ||
-            description.includes("computer vision") ||
-            description.includes("data analyst")
-          );
-        case "mechanical":
-          return (
-            description.includes("mechanical") ||
-            description.includes("design") ||
-            description.includes("manufacturing")
-          );
-        case "electronics":
-          return (
-            description.includes("electronics") ||
-            description.includes("embedded") ||
-            description.includes("sensor") ||
-            description.includes("communication")
-          );
-        case "marketing":
-          return (
-            description.includes("marketing") ||
-            description.includes("business") ||
-            description.includes("operations") ||
-            description.includes("coordinator")
-          );
-        default:
-          return true;
-      }
-    });
-  };
 
   const TeamCard = ({ card, index }) => (
     <motion.div
@@ -119,44 +62,9 @@ export function ExpandableCardDemo() {
 
   return (
     <div className="max-w-7xl mx-auto w-full">
-      {/* Clickable Sections/Filters - Underline Tab Style */}
-      <div className="mb-16">
-        <div className="flex justify-center">
-          <div className="relative w-full max-w-7xl border-b border-gray-600 px-4">
-            <div className="flex justify-between">
-              {departments.map((dept, index) => (
-                <motion.button
-                  key={dept.id}
-                  onClick={() => setActiveSection(dept.id)}
-                  className={`relative pb-6 font-ui font-semibold text-lg transition-all duration-300 ${
-                    activeSection === dept.id
-                      ? "text-orange-400"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {dept.name}
-                  {/* Active underline indicator - overlays on the gray border */}
-                  {activeSection === dept.id && (
-                    <motion.div
-                      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-1 bg-orange-400 min-w-[120px]"
-                      layoutId="activeTab"
-                      initial={false}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      style={{ zIndex: 10 }} // Ensure it overlays the gray border
-                    />
-                  )}
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Team Grid */}
+      {/* Unified Team Grid - No Filters */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {getFilteredCards().map((card, index) => (
+        {allTeamCards.map((card, index) => (
           <TeamCard key={card.title} card={card} index={index} />
         ))}
       </div>

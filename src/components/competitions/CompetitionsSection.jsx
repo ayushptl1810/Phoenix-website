@@ -121,7 +121,6 @@ const CompetitionsSection = () => {
       transition: {
         duration: 0.6,
         ease: "easeOut",
-        delay: 0.8,
       },
     },
     hover: {
@@ -162,13 +161,15 @@ const CompetitionsSection = () => {
             className="mt-6 flex justify-center"
             variants={buttonVariants}
           >
-            <Link
-              to="/achievements"
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/30 bg-black/20 backdrop-blur-md text-white hover:border-[#ff8c00] hover:bg-[#ff8c00]/10 transition-all duration-300 text-lg font-ui font-bold tracking-wide"
-            >
-              <div className="w-2 h-2 bg-[#ff8c00] rounded-full animate-pulse"></div>
-              View Achievements
-              <div className="w-2 h-2 bg-[#ff8c00] rounded-full animate-pulse"></div>
+            <Link to="/achievements">
+              <motion.button
+                className="group relative px-8 py-4 bg-gradient-to-r from-[#ff8c00] to-orange-600 text-white font-ui font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#ff8c00]/25 cursor-pointer"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span className="relative z-10">View Achievements</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-[#ff8c00] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </motion.button>
             </Link>
           </motion.div>
         </motion.div>

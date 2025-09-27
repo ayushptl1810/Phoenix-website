@@ -39,13 +39,7 @@ const WaysToSupport = ({ items }) => {
   };
 
   return (
-    <motion.section
-      className="container mx-auto px-6 max-w-5xl py-12"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-    >
+    <>
       <motion.div className="text-center mb-10" variants={itemVariants}>
         <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-3">
           Ways to Support
@@ -79,7 +73,7 @@ const WaysToSupport = ({ items }) => {
           </motion.div>
         ))}
       </div>
-    </motion.section>
+    </>
   );
 };
 
