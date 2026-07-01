@@ -2,8 +2,10 @@ import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
 import FleetGrid from "../components/fleet/FleetGrid";
+import Drone3DModal from "../components/fleet/Drone3DModal";
 
 const Fleet = () => {
+  const [selected3DDrone, setSelected3DDrone] = useState(null);
   // Year-based filter
   const [selectedYear, setSelectedYear] = useState("2024-2025");
 
@@ -121,8 +123,16 @@ const Fleet = () => {
         id="fleet-grid"
         className="container mx-auto px-4 sm:px-6 pb-12 sm:pb-16"
       >
-        <FleetGrid selectedYear={selectedYear} />
+        <FleetGrid selectedYear={selectedYear} onOpen3D={setSelected3DDrone} />
       </main>
+
+      {selected3DDrone && (
+        <Drone3DModal
+          isOpen={!!selected3DDrone}
+          onClose={() => setSelected3DDrone(null)}
+          drone={selected3DDrone}
+        />
+      )}
     </motion.div>
   );
 };
