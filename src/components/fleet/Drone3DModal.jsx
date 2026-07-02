@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose, IoPlay, IoRefresh, IoCamera } from "react-icons/io5";
 import Drone3DCanvas from "./Drone3DCanvas";
@@ -69,7 +70,7 @@ const Drone3DModal = ({ isOpen, onClose, drone }) => {
     (c) => c.id === activeDescriptionCategory,
   );
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 overflow-hidden">
         {/* Backdrop Blur Overlay */}
@@ -94,7 +95,7 @@ const Drone3DModal = ({ isOpen, onClose, drone }) => {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="absolute top-4 right-4 z-30 p-2 text-gray-400 hover:text-white bg-gray-900/60 hover:bg-orange-500/20 border border-gray-800 hover:border-orange-500/40 rounded-full transition-all duration-300 shadow-md cursor-pointer"
+            className="absolute top-16 md:top-4 right-4 z-30 p-2 text-gray-400 hover:text-white bg-gray-900/60 hover:bg-orange-500/20 border border-gray-800 hover:border-orange-500/40 rounded-full transition-all duration-300 shadow-md cursor-pointer"
           >
             <IoClose size={24} />
           </button>
@@ -141,28 +142,27 @@ const Drone3DModal = ({ isOpen, onClose, drone }) => {
 
               {/* Explode Toggle */}
               {drone.allowExplode !== false && (
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setExplosionFactor((prev) => (prev > 0 ? 0 : 0.25));
-                    }}
-                    className={`px-4 py-2 text-xs font-semibold rounded-lg flex items-center gap-2 border transition-all duration-300 cursor-pointer shadow-md ${
-                      explosionFactor > 0 ?
-                        "bg-orange-500/15 border-orange-500 text-orange-400 hover:bg-orange-500/25"
+                <button
+                  type="button"
+                  onClick={() => setExplosionFactor((prev) => (prev > 0 ? 0 : 0.25))}
+                  className={`px-3 py-2 text-xs font-semibold rounded-lg flex items-center gap-1.5 border transition-all duration-300 cursor-pointer shadow-md ${
+                    explosionFactor > 0
+                      ? "bg-orange-500/15 border-orange-500 text-orange-400 hover:bg-orange-500/25"
                       : "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
-                    }`}
-                  >
-                    {explosionFactor > 0 ?
-                      <>
-                        <IoRefresh size={14} /> Assemble Model
-                      </>
-                    : <>
-                        <IoPlay size={14} /> Explode View
-                      </>
-                    }
-                  </button>
-                </div>
+                  }`}
+                >
+                  {explosionFactor > 0 ? (
+                    <>
+                      <IoRefresh size={14} />
+                      <span className="hidden sm:inline">Assemble Model</span>
+                    </>
+                  ) : (
+                    <>
+                      <IoPlay size={14} />
+                      <span className="hidden sm:inline">Explode View</span>
+                    </>
+                  )}
+                </button>
               )}
             </div>
 
@@ -264,7 +264,8 @@ const Drone3DModal = ({ isOpen, onClose, drone }) => {
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

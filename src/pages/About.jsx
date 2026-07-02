@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import Navbar from "../components/common/Navbar";
 import AboutHero from "../components/about_page/AboutHero";
 import OurStory from "../components/about_page/OurStory";
@@ -20,30 +19,6 @@ import {
 } from "../components/about_page/aboutData";
 
 const About = () => {
-  // Standardized animation variants
-  const pageVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
-
   // Compute Events Participated dynamically = total achievements - 1 (exclude Team Founded)
   const totalAchievements = (
     Array.isArray(achievementsData) ? achievementsData.flat(Infinity) : []
@@ -57,28 +32,23 @@ const About = () => {
   );
 
   return (
-    <motion.div
-      className="min-h-screen bg-black text-white"
-      variants={pageVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="min-h-screen bg-black text-white">
       <Navbar currentPage="About" />
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <AboutHero
           title={aboutHero.title}
           subtitle={aboutHero.subtitle}
           imageSrc={aboutHero.image}
           tags={["Mechanical", "Electronics", "Coding", "Marketing"]}
         />
-      </motion.div>
+      </div>
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <OurStory paragraphs={storyParagraphs} />
-      </motion.div>
+      </div>
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <DepartmentShowcase
           items={departments.map((d) => ({
             title: d.title,
@@ -94,16 +64,16 @@ const About = () => {
                 : marketingImg,
           }))}
         />
-      </motion.div>
+      </div>
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <StatsCounter items={computedStats} />
-      </motion.div>
+      </div>
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <LocationMap />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

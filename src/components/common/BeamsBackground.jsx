@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 function createBeam(width, height) {
   const angle = -35 + Math.random() * 10;
@@ -30,6 +31,21 @@ const BeamsBackground = ({ className = "", intensity = "strong" }) => {
   const beamsRef = useRef([]);
   const animationFrameRef = useRef(0);
   const lastTimeRef = useRef(0);
+  const overlayRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.fromTo(
+      overlayRef.current,
+      { opacity: 0.02 },
+      {
+        opacity: 0.06,
+        duration: 7,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+      }
+    );
+  }, { scope: overlayRef });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -124,7 +140,6 @@ const BeamsBackground = ({ className = "", intensity = "strong" }) => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       ctx.clearRect(0, 0, width, height);
-      // draw without additional per-draw filter; CSS handles a subtle blur
 
       const totalBeams = beamsRef.current.length;
       beamsRef.current.forEach((beam, index) => {
@@ -155,10 +170,9 @@ const BeamsBackground = ({ className = "", intensity = "strong" }) => {
         className="absolute inset-0"
         style={{ filter: "blur(8px)" }}
       />
-      <motion.div
-        className="absolute inset-0 bg-neutral-950/5"
-        animate={{ opacity: [0.02, 0.06, 0.02] }}
-        transition={{ duration: 14, ease: "easeInOut", repeat: Infinity }}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 bg-neutral-950/5 opacity-[0.02]"
       />
     </div>
   );
