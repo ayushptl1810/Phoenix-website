@@ -1,0 +1,91 @@
+{
+  "modelFileName": "Rhino Aerothon2025 drone.gltf",
+  "cameraPresets": {
+    "top": [0, 1.8, 0.01],
+    "front": [0, 0, 1.8],
+    "side": [1.8, 0, 0],
+    "iso": [1.2, 1.2, 1.2]
+  },
+  "partCategories": [
+    {
+      "id": "Propeller",
+      "label": "8x4.5 Propellers",
+      "vOffset": 1.5,
+      "spin": true,
+      "description": "8-Inch Propellers - Heavy-duty 8x4.5 CW/CCW props providing high thrust for payload lift."
+    },
+    {
+      "id": "Motor",
+      "label": "Avenger 2806.5 Motors",
+      "vOffset": 1.1,
+      "description": "BrotherHobby Avenger 2806.5 1300KV Motors - High-performance brushless motors engineered for heavy payloads."
+    },
+    {
+      "id": "Canopy",
+      "label": "Pro Canopy Shell",
+      "vOffset": 1.4,
+      "description": "Aerodynamic Canopy - Custom 3D printed protective top shell."
+    },
+    {
+      "id": "ESC",
+      "label": "SpeedyBee 50A ESC Stack",
+      "vOffset": 0.6,
+      "description": "SpeedyBee BL32 50A 4-in-1 ESC - High current capacity ESC stack running BLHeli_32."
+    },
+    {
+      "id": "RPiZero",
+      "label": "Raspberry Pi Zero 2 W",
+      "vOffset": 0.5,
+      "description": "Onboard Companion - Ultra-compact Pi Zero 2 W running autonomous mission tasks."
+    },
+    {
+      "id": "Frame",
+      "label": "Crazy Drone 3mm Chassis",
+      "vOffset": 0.0,
+      "description": "Carbon Chassis - 3mm ultra-stiff CNC carbon fiber frame plates and structural arms."
+    },
+    {
+      "id": "Battery",
+      "label": "LiPo Flight Battery",
+      "vOffset": -0.6,
+      "description": "High Capacity LiPo Battery Pack providing sustained flight endurance."
+    },
+    {
+      "id": "Payload",
+      "label": "Payload Drop Mechanism",
+      "vOffset": -1.2,
+      "description": "Autonomous Drop System - MG90S Servo driven mechanical release mechanism and payload box."
+    },
+    {
+      "id": "GPS",
+      "label": "M9N GPS & Dual Antennas",
+      "vOffset": 1.8,
+      "description": "Navigation & Comms - M9N GNSS module with integrated compass and dual high-gain antennas."
+    },
+    {
+      "id": "Radio",
+      "label": "Telemetry & WiFi Link",
+      "vOffset": 0.4,
+      "description": "Long-Range Comms - 3D Robotics 900MHz telemetry kit and high-power RTL8812AU WiFi module."
+    },
+    {
+      "id": "Power",
+      "label": "Power Module & UBEC",
+      "vOffset": -0.4,
+      "description": "Power Management - Holybro PM02D power module and Henge 4A UBEC."
+    }
+  ],
+  "partMappings": [
+    { "id": "Propeller", "keywords": ["propeller"] },
+    { "id": "Motor", "keywords": ["bh_avenger", "avenger"] },
+    { "id": "Canopy", "keywords": ["canopy"] },
+    { "id": "GPS", "keywords": ["m9n", "gps", "antenna"] },
+    { "id": "ESC", "keywords": ["speedybee", "bl32"] },
+    { "id": "RPiZero", "keywords": ["raspberry", "pi zero", "rpi"] },
+    { "id": "Payload", "keywords": ["payload", "drop", "mg90s", "aslide"] },
+    { "id": "Battery", "keywords": ["battery"] },
+    { "id": "Radio", "keywords": ["telemetry", "rtl8812au", "receiver", "radiolink"] },
+    { "id": "Power", "keywords": ["pm02d", "ubec"] },
+    { "id": "Frame", "keywords": ["crazy drone", "mech"] }
+  ]
+}

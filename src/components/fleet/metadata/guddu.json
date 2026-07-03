@@ -1,0 +1,98 @@
+{
+  "modelFileName": "Guddu Isro Drone.gltf",
+  "cameraPresets": {
+    "top": [0, 1.8, 0.01],
+    "front": [0, 0, 1.8],
+    "side": [1.8, 0, 0],
+    "iso": [1.2, 1.2, 1.2]
+  },
+  "partCategories": [
+    {
+      "id": "Propeller",
+      "label": "10x4.5 Propellers",
+      "vOffset": 1.5,
+      "spin": true,
+      "description": "SunnySky 10x4.5 inch propellers providing vertical lift."
+    },
+    {
+      "id": "Motor",
+      "label": "Arm Motors",
+      "vOffset": 1.1,
+      "description": "High-efficiency brushless motors providing rapid acceleration and stability."
+    },
+    {
+      "id": "Canopy",
+      "label": "Upper Canopy",
+      "vOffset": 1.5,
+      "description": "Full-and-final protective upper canopy shielding sensitive internal avionics."
+    },
+    {
+      "id": "TopPlate",
+      "label": "Top Plate",
+      "vOffset": 0.8,
+      "description": "Carbon Fiber Top Plate - Main structural upper chassis plate."
+    },
+    {
+      "id": "Frame",
+      "label": "Landing Gear",
+      "vOffset": 0.0,
+      "description": "3D-printed landing gear extensions integrated onto the frame arms to absorb impact and ensure ground clearance."
+    },
+    {
+      "id": "BottomPlate",
+      "label": "Bottom Plate",
+      "vOffset": -0.5,
+      "description": "Carbon Fiber Bottom Plate - Structural base plate mounting electronics and arms."
+    },
+    {
+      "id": "RPi4",
+      "label": "Raspberry Pi 4B",
+      "vOffset": 0.5,
+      "description": "Onboard Companion Computer - 4GB Raspberry Pi 4B handling computer vision and sensor fusion."
+    },
+    {
+      "id": "OAKD",
+      "label": "OAK-D Lite Depth Camera",
+      "vOffset": -0.8,
+      "description": "Spatial AI Vision - OAK-D Lite stereo camera enclosure for 3D spatial perception and obstacle avoidance."
+    },
+    {
+      "id": "Lidar",
+      "label": "LiDAR Sensors",
+      "vOffset": -1.2,
+      "description": "Distance Sensors - Long-range LiDAR and VL53L1X time-of-flight sensors for precise altimetry."
+    },
+    {
+      "id": "IMU",
+      "label": "MPU6050 IMU Module",
+      "vOffset": 0.4,
+      "description": "Inertial Measurement Unit - 6-axis gyro/accelerometer sensor for flight stability data."
+    },
+    {
+      "id": "Power",
+      "label": "Power Distribution Board",
+      "vOffset": -0.4,
+      "description": "PDB Module - Clean voltage regulation and power delivery to motors and flight computer."
+    },
+    {
+      "id": "Radio",
+      "label": "Radio & Telemetry Links",
+      "vOffset": 0.3,
+      "description": "Telemetry Links - Holybro 433MHz 100mW radio telemetry modules and EP1 ELRS receiver."
+    }
+  ],
+  "partMappings": [
+    { "id": "Canopy", "keywords": ["canopy"] },
+    { "id": "Propeller", "keywords": ["10x45", "10x4.5", "propeller"] },
+    { "id": "Motor", "keywords": ["sunnysky", "motor"] },
+    { "id": "TopPlate", "keywords": ["top_plate", "top plate"] },
+    { "id": "BottomPlate", "keywords": ["bottomplate", "bottom_plate"] },
+    { "id": "RPi4", "keywords": ["raspberry", "rpi"] },
+    { "id": "OAKD", "keywords": ["oak_d", "oak-d", "enclosure"] },
+    { "id": "Lidar", "keywords": ["lidar", "vl53l1x"] },
+    { "id": "IMU", "keywords": ["mpu6050", "imu"] },
+    { "id": "Power", "keywords": ["pdb"] },
+    { "id": "Radio", "keywords": ["telemetry", "ep1", "radiolink"] },
+    { "id": "Frame", "keywords": ["deadcat", "dandi"] }
+  ]
+}
