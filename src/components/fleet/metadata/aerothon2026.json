@@ -1,0 +1,98 @@
+{
+  "modelFileName": "Aerothon 2026 drone.gltf",
+  "cameraPresets": {
+    "top": [0, 1.8, 0.01],
+    "front": [0, 0, 1.8],
+    "side": [1.8, 0, 0],
+    "iso": [1.2, 1.2, 1.2]
+  },
+  "partCategories": [
+    {
+      "id": "Propeller",
+      "label": "Propellers",
+      "vOffset": 1.5,
+      "spin": true,
+      "description": "Propellers & Nuts - 10x4.5 Inch high-efficiency carbon blades and aluminum acorn cap nuts."
+    },
+    {
+      "id": "Sunny Sky",
+      "label": "Brushless Motors",
+      "vOffset": 1.1,
+      "description": "SunnySky V4006 Motors - Outrunner brushless motors providing swift response times and reliability."
+    },
+    {
+      "id": "Arm Final",
+      "label": "Carbon Fiber Arms",
+      "vOffset": 0.0,
+      "description": "Carbon Arms - Structural support arms made from 3K twill weave carbon fiber tubing."
+    },
+    {
+      "id": "CYCLONE",
+      "label": "Cyclone 35A ESCs",
+      "vOffset": 0.8,
+      "description": "Cyclone ESCs - 35A Electronic Speed Controllers running BLHeli_32 with active braking."
+    },
+    {
+      "id": "Frame",
+      "label": "Carbon Frame Plates",
+      "vOffset": 0.5,
+      "description": "Carbon Chassis - CNC-milled 2.5mm carbon fiber top and bottom deck plates providing chassis rigidity."
+    },
+    {
+      "id": "raspberry",
+      "label": "Raspberry Pi 5",
+      "vOffset": 0.5,
+      "description": "Onboard Computer - 4GB Companion computer for edge processing, obstacle detection, and vision."
+    },
+    {
+      "id": "CUAV",
+      "label": "CUAV V5 Controller",
+      "vOffset": 0.5,
+      "description": "Autopilot - Flight control module containing isolated, triple-redundant IMUs running PX4 firmware."
+    },
+    {
+      "id": "Battery",
+      "label": "Battery & Power Systems",
+      "vOffset": -0.6,
+      "description": "Power Systems - 6000mAh 4S LiPo battery, PDB-TX60, and UBEC voltage regulators."
+    },
+    {
+      "id": "GPS",
+      "label": "CUAV Neo V2 GPS",
+      "vOffset": 1.8,
+      "description": "Navigation Module - High-sensitivity GPS/GNSS receiver with integrated compass for precise pathfinding."
+    },
+    {
+      "id": "Camera",
+      "label": "Cameras & Mounts",
+      "vOffset": -1.1,
+      "description": "Vision System - Pilot camera and dual high-resolution Arducam IMX708 depth cameras."
+    },
+    {
+      "id": "Landing",
+      "label": "Landing Skids",
+      "vOffset": -1.6,
+      "description": "Landing Gear - Tall carbon landing legs and payload dropping pulley mechanism."
+    },
+    {
+      "id": "Receiver",
+      "label": "Radio & Telemetry",
+      "vOffset": 0.5,
+      "description": "Radio Links - ELRS radio receiver and telemetry modules for high-frequency remote command links."
+    }
+  ],
+  "partMappings": [
+    { "id": "GPS", "keywords": ["gps", "neo"] },
+    { "id": "CUAV", "keywords": ["cuav"] },
+    { "id": "Propeller", "keywords": ["propeller", "acorn", "nut"] },
+    { "id": "Sunny Sky", "keywords": ["sunny", "sunnysky", "motor"] },
+    { "id": "Arm Final", "keywords": ["arm final", "part7"] },
+    { "id": "CYCLONE", "keywords": ["cyclone"] },
+    { "id": "raspberry", "keywords": ["raspberry", "rpi"] },
+    { "id": "Camera", "keywords": ["camera", "arducam", "mount", "extension"] },
+    { "id": "Battery", "keywords": ["battery", "pdb", "ubec", "pcb1"] },
+    { "id": "Landing", "keywords": ["landing", "dropping", "pulley"] },
+    { "id": "Receiver", "keywords": ["telemetry", "rp4td", "elrs"] },
+    { "id": "Frame", "keywords": ["plate"] }
+  ]
+}

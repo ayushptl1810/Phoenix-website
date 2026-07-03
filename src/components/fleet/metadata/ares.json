@@ -1,0 +1,51 @@
+{
+  "modelFileName": "Ares Vtol.gltf",
+  "allowExplode": false,
+  "cameraPresets": {
+    "top": [0, 0, 1.8],
+    "front": [0, -1.8, 0.01],
+    "side": [1.8, 0, 0],
+    "iso": [1.2, 1.2, 1.2]
+  },
+  "cameraUp": [0, 0, 1],
+  "partCategories": [
+    {
+      "id": "Fuselage",
+      "label": "Aerodynamic Fuselage",
+      "vOffset": 0.0,
+      "description": "Composite Central Body - Streamlined central fuselage housing internal avionics, flight computer, and telemetry."
+    },
+    {
+      "id": "Booms",
+      "label": "Outer Wings & Booms",
+      "vOffset": 0.0,
+      "description": "Structural Wings & Booms - Carbon fiber lateral wing structures and longitudinal rotor boom support arms."
+    },
+    {
+      "id": "Propeller",
+      "label": "VTOL & Pusher Propellers",
+      "vOffset": 0.0,
+      "spin": true,
+      "description": "High-efficiency lift propellers and rear propulsion propeller enabling vertical takeoff and cruise."
+    },
+    {
+      "id": "Motor",
+      "label": "Brushless Motors",
+      "vOffset": 0.0,
+      "description": "Heavy-duty quad-rotor lift motors and high-speed pusher motor for forward flight."
+    },
+    {
+      "id": "Mount",
+      "label": "Motor Mounts & Adapters",
+      "vOffset": 0.0,
+      "description": "Precision CNC aluminum motor mounting brackets securing propulsion units to carbon booms."
+    }
+  ],
+  "partMappings": [
+    { "id": "Fuselage", "keywords": ["bodystep", "fuselage"] },
+    { "id": "Booms", "keywords": ["component"] },
+    { "id": "Propeller", "keywords": ["propeller"] },
+    { "id": "Motor", "keywords": ["motor"] },
+    { "id": "Mount", "keywords": ["mount"] }
+  ]
+}
