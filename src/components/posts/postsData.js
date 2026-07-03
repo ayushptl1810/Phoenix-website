@@ -6,7 +6,9 @@ import blog5 from "../../assets/blogs/blog-5.jpeg";
 import blog6 from "../../assets/blogs/blog-6.jpeg";
 import blog7 from "../../assets/blogs/blog-7.jpeg";
 import blog8 from "../../assets/blogs/blog-8.jpeg";
-import blog9 from "../../assets/blogs/blog-10.png";
+import blog9 from "../../assets/blogs/blog-9.jpeg";
+import blog10 from "../../assets/blogs/blog-10.jpeg";
+import blog11 from "../../assets/blogs/blog-11.jpeg";
 
 export const postsData = [
   {
@@ -84,5 +86,22 @@ export const postsData = [
     image: blog9,
     linkedinUrl:
       "https://www.linkedin.com/posts/djs-phoenix_nidar2025-disastermanagement-djsphoenix-activity-7421609011285790720-7R-F?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETddNgB7lEAQ5KbDVQpjlWzWpWEnwpZF9s",
+  },
+  {
+    title: "DJS Phoenix x Ninetron Tech LLP: Powering Innovation",
+    excerpt:
+      "We are thrilled to announce a strategic technical partnership between Team DJS Phoenix and NinetronTech, a premier provider of advanced UAV components, flight controllers, propulsion systems, and geospatial solutions. This collaboration strengthens our mission to build reliable, mission-ready drone systems.",
+    image: blog10,
+    linkedinUrl:
+      "https://www.linkedin.com/posts/djs-phoenix_djsphoenix-ninetrontech-cuav-activity-7434101510394904576-8_De?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETddNgB7lEAQ5KbDVQpjlWzWpWEnwpZF9s",
+  },
+  {
+    title: "Falcon Skyworks x DJS Phoenix",
+    excerpt:
+      "We are excited to welcome Falcon Skyworks as our newest technical partner. This collaboration brings cutting-edge aerospace expertise and advanced UAV technology to Team DJS Phoenix, further strengthening our mission to engineer high-performance drone systems.",
+    image: blog11,
+    linkedinUrl:
+      "https://www.linkedin.com/posts/djs-phoenix_falcon-skyworks-x-djs-phoenix-we-activity-7474862293143478272-XVYL?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETddNgB7lEAQ5KbDVQpjlWzWpWEnwpZF9s",
+    imageFit: "contain",
   },
 ];

@@ -1,7 +1,12 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HowToSponsor = () => {
+  const containerRef = useRef(null);
   const steps = [
     {
       title: "Submit Interest",
@@ -25,66 +30,83 @@ const HowToSponsor = () => {
     },
   ];
 
-  // Standardized animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0,
-      },
-    },
-  };
+  useGSAP(
+    () => {
+      // Animate header
+      gsap.fromTo(
+        ".how-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".how-header",
+            start: "top 92%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
+      // Animate steps in batch
+      const items = gsap.utils.toArray(".how-step-item");
+      items.forEach((item) => {
+        gsap.fromTo(
+          item,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
 
-  const stepVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0, 1],
-      },
+      // Animate connector lines in batch
+      const lines = gsap.utils.toArray(".how-line");
+      lines.forEach((line) => {
+        gsap.fromTo(
+          line,
+          { opacity: 0, scaleX: 0 },
+          {
+            opacity: 0.4,
+            scaleX: 1,
+            duration: 0.5,
+            ease: "power1.out",
+            scrollTrigger: {
+              trigger: line,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
     },
-  };
+    { scope: containerRef }
+  );
 
   return (
-    <motion.section
+    <section
+      ref={containerRef}
       className="container mx-auto px-4 sm:px-6 max-w-5xl py-8 sm:py-12"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
-      <motion.h2
-        className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 text-center"
-        variants={itemVariants}
-      >
+      <h2 className="how-header opacity-0 font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 text-center">
         How to Sponsor
-      </motion.h2>
+      </h2>
 
       <div className="lg:hidden space-y-4 sm:space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {steps.slice(0, 3).map((s, idx) => (
-            <motion.div
+            <div
               key={s.title}
-              className="rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6 transition-transform duration-300 hover:-translate-y-1 hover:border-orange-500/40 hover:bg-white/10 hover:shadow-[0_0_18px_rgba(255,140,0,0.18)]"
-              variants={stepVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="how-step-item opacity-0 rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/40 hover:bg-white/10 hover:shadow-[0_0_18px_rgba(255,140,0,0.18)]"
             >
               <div className="ui-text text-[10px] sm:text-xs text-gray-300 mb-1 sm:mb-2">
                 Step {idx + 1}
@@ -95,17 +117,14 @@ const HowToSponsor = () => {
               <p className="text-gray-300 text-xs sm:text-sm mt-1">
                 {s.detail}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 justify-items-stretch">
           {steps.slice(3).map((s, idx) => (
-            <motion.div
+            <div
               key={s.title}
-              className="rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6 transition-transform duration-300 hover:-translate-y-1 hover:border-orange-500/40 hover:bg-white/10 hover:shadow-[0_0_18px_rgba(255,140,0,0.18)]"
-              variants={stepVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="how-step-item opacity-0 rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] hover:border-orange-500/40 hover:bg-white/10 hover:shadow-[0_0_18px_rgba(255,140,0,0.18)]"
             >
               <div className="ui-text text-[10px] sm:text-xs text-gray-300 mb-1 sm:mb-2">
                 Step {idx + 4}
@@ -116,24 +135,16 @@ const HowToSponsor = () => {
               <p className="text-gray-300 text-xs sm:text-sm mt-1">
                 {s.detail}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
       <div className="hidden lg:block">
-        <motion.div
-          className="flex items-center justify-center max-w-6xl mx-auto"
-          variants={itemVariants}
-        >
+        <div className="flex items-center justify-center max-w-6xl mx-auto">
           {steps.map((s, idx) => (
             <React.Fragment key={s.title}>
-              <motion.div
-                className="flex flex-col items-center text-center min-w-[160px] lg:min-w-[180px]"
-                variants={stepVariants}
-                whileHover={{ y: -8, scale: 1.05 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
+              <div className="how-step-item opacity-0 flex flex-col items-center text-center min-w-[160px] lg:min-w-[180px] transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03]">
                 <div className="ui-text w-16 h-16 lg:w-20 lg:h-20 text-2xl lg:text-4xl rounded-full border border-orange-500/60 bg-orange-500/10 text-white flex items-center justify-center mb-2">
                   {idx + 1}
                 </div>
@@ -143,21 +154,15 @@ const HowToSponsor = () => {
                 <div className="text-gray-300 text-xs lg:text-sm max-w-[200px] lg:max-w-[240px]">
                   {s.detail}
                 </div>
-              </motion.div>
+              </div>
               {idx < steps.length - 1 && (
-                <motion.div
-                  className="h-px mx-3 lg:mx-6 w-16 lg:w-24 xl:w-32 bg-gradient-to-r from-white/10 via-white/40 to-white/10"
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 + idx * 0.05 }}
-                />
+                <div className="how-line opacity-0 h-px mx-3 lg:mx-6 w-16 lg:w-24 xl:w-32 bg-gradient-to-r from-white/10 via-white/40 to-white/10 origin-left" />
               )}
             </React.Fragment>
           ))}
-        </motion.div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

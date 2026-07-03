@@ -1,5 +1,6 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "../components/common/Navbar";
 import SupportHero from "../components/support/SupportHero";
 import WaysToSupport from "../components/support/WaysToSupport";
@@ -13,7 +14,6 @@ import {
   waysToSupport,
   inKindWishlist,
   currentSponsors,
-  mediaKit,
   faq,
   contactConfig,
 } from "../components/support/supportData";
@@ -25,6 +25,8 @@ import CUAVLogo from "../assets/Sponsors/CUAV_logo.png";
 import ATCLogo from "../assets/Sponsors/atclogo.png";
 import AltiumLogo from "../assets/Sponsors/altium-designer-software.png";
 import FalconSkyworksLogo from "../assets/Sponsors/Falcon_Skyworks.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Support = () => {
   const sponsorLogos = [
@@ -42,76 +44,78 @@ const Support = () => {
     },
   ];
 
-  const handleContactSubmit = (data) => {
-    // Generic submit handler (integrate with backend or email service as needed)
-    // For now, log and provide a client-side acknowledgment.
-    // eslint-disable-next-line no-console
-    console.log("Support inquiry submitted", data);
-    alert("Thanks! We will get back to you shortly.");
+  const handleContactSubmit = async (data) => {
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      throw new Error(
+        "Sponsorship form is not configured. Please set VITE_WEB3FORMS_ACCESS_KEY in the environment."
+      );
+    }
+
+    const payload = {
+      access_key: accessKey,
+      subject: `New Sponsorship Inquiry: ${data.supportType} from ${data.name}`,
+      from_name: "DJS Phoenix Website",
+      name: data.name,
+      email: data.email,
+      organization: data.organization || "None Provided",
+      support_type: data.supportType,
+      message: data.message,
+    };
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Failed to send message. Please try again.");
+    }
   };
 
-  // Standardized animation variants
-  const pageVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
+  // Force ScrollTrigger calculations to settle on mount
+  useEffect(() => {
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <motion.div
-      className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask"
-      variants={pageVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask">
       <Navbar currentPage="Support" />
 
-      <motion.div variants={sectionVariants}>
+      <div>
         <SupportHero data={supportHero} />
-      </motion.div>
-      <motion.div
-        variants={pageVariants}
-        className="container mx-auto px-4 sm:px-6 max-w-5xl py-8 sm:py-12"
-      >
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 max-w-5xl py-8 sm:py-12">
         <WaysToSupport items={waysToSupport} />
-      </motion.div>
-      <motion.div variants={sectionVariants}>
+      </div>
+      <div>
         <Wishlist groups={inKindWishlist} />
-      </motion.div>
-      <motion.div variants={sectionVariants}>
+      </div>
+      <div>
         <SponsorsStrip
           heading={currentSponsors.heading}
           note={currentSponsors.note}
           logos={sponsorLogos}
         />
-      </motion.div>
-      <motion.div variants={sectionVariants}>
+      </div>
+      <div>
         <HowToSponsor />
-      </motion.div>
-      <motion.div variants={sectionVariants}>
+      </div>
+      <div>
         <FAQ items={faq} />
-      </motion.div>
-      <motion.div variants={sectionVariants}>
+      </div>
+      <div>
         <ContactForm config={contactConfig} onSubmit={handleContactSubmit} />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

@@ -1,87 +1,76 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "../components/common/Navbar";
 import PostsGrid from "../components/posts/PostsGrid";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Posts = () => {
-  // Standardized animation variants
-  const pageVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const containerRef = useRef(null);
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
+  // Force ScrollTrigger refresh on mount to resolve early trigger calculations
+  useEffect(() => {
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
+    return () => clearTimeout(t);
+  }, []);
 
-  const heroVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.25, 0, 1],
-      },
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.fromTo(
+        ".posts-title",
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.1 }
+      );
+      tl.fromTo(
+        ".posts-desc",
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.8 },
+        "-=0.5"
+      );
+      tl.fromTo(
+        ".posts-grid-wrapper",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6 },
+        "-=0.5"
+      );
     },
-  };
+    { scope: containerRef }
+  );
 
   return (
-    <motion.div
+    <div
+      ref={containerRef}
       className="min-h-screen bg-black text-white bg-grid-mask bg-noise-mask"
-      variants={pageVariants}
-      initial="hidden"
-      animate="visible"
     >
       <Navbar currentPage="Posts" />
 
       {/* Hero Section */}
-      <motion.section
-        className="relative overflow-hidden"
-        variants={sectionVariants}
-      >
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0" />
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-16">
           <div className="text-center">
-            <motion.h1
-              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent leading-[1.3]"
-              variants={heroVariants}
-            >
+            <h1 className="posts-title opacity-0 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent leading-[1.3]">
               Phoenix Posts
-            </motion.h1>
-            <motion.p
-              className="font-body text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4"
-              variants={heroVariants}
-            >
+            </h1>
+            <p className="posts-desc opacity-0 font-body text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Stay updated with the latest news, insights, and stories from the
               Phoenix team
-            </motion.p>
+            </p>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Posts Grid */}
-      <motion.main
-        className="container mx-auto px-4 sm:px-6 pb-12 sm:pb-16"
-        variants={sectionVariants}
-      >
+      <main className="posts-grid-wrapper opacity-0 container mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
         <PostsGrid />
-      </motion.main>
-    </motion.div>
+      </main>
+    </div>
   );
 };
 

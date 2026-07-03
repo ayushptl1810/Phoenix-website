@@ -25,3 +25,4 @@ dist-ssr
 
 src/components/fleet/metadata/*
 src/assets/3d-drones
+.env

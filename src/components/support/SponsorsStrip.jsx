@@ -1,71 +1,77 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
-  // Standardized animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const containerRef = useRef(null);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
+  useGSAP(
+    () => {
+      // Animate header
+      gsap.fromTo(
+        ".sponsors-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".sponsors-header",
+            start: "top 92%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-  const logoVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0, 1],
-      },
+      // Animate logo boxes in batch
+      const logoItems = gsap.utils.toArray(".sponsor-logo-item");
+      logoItems.forEach((logo) => {
+        gsap.fromTo(
+          logo,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: logo,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
     },
-  };
+    { scope: containerRef }
+  );
 
   return (
-    <motion.section
+    <section
+      ref={containerRef}
       className="container mx-auto px-4 sm:px-6 max-w-5xl py-8 sm:py-12"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
-      <motion.div className="text-center mb-4 sm:mb-6" variants={itemVariants}>
+      <div className="sponsors-header opacity-0 text-center mb-4 sm:mb-6">
         <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           {heading}
         </h2>
         {note && (
           <p className="text-sm sm:text-base text-gray-300 mt-2 px-4">{note}</p>
         )}
-      </motion.div>
+      </div>
       {logos.length >= 5 && logos.length <= 6 ? (
         <div className="space-y-4 sm:space-y-6">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
             {logos.slice(0, 3).map((logo) => {
               const scale = logo.scale || sizeOverrides[logo.alt] || 1;
               return (
-                <motion.div
+                <div
                   key={logo.alt}
-                  className="rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all hover:border-orange-500/40 hover:bg-white/10 min-w-[140px] sm:min-w-[200px]"
-                  variants={logoVariants}
-                  whileHover={{ y: -8, scale: 1.05 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="sponsor-logo-item opacity-0 rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all duration-300 hover:border-orange-500/40 hover:bg-white/10 min-w-[140px] sm:min-w-[200px] hover:-translate-y-2 hover:scale-[1.03]"
                 >
                   <img
                     src={logo.src}
@@ -80,7 +86,7 @@ const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
                     }}
                     loading="lazy"
                   />
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -88,12 +94,9 @@ const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
             {logos.slice(3).map((logo) => {
               const scale = logo.scale || sizeOverrides[logo.alt] || 1;
               return (
-                <motion.div
+                <div
                   key={logo.alt}
-                  className="rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all hover:border-orange-500/40 hover:bg-white/10 min-w-[140px] sm:min-w-[200px]"
-                  variants={logoVariants}
-                  whileHover={{ y: -8, scale: 1.05 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="sponsor-logo-item opacity-0 rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all duration-300 hover:border-orange-500/40 hover:bg-white/10 min-w-[140px] sm:min-w-[200px] hover:-translate-y-2 hover:scale-[1.03]"
                 >
                   <img
                     src={logo.src}
@@ -108,7 +111,7 @@ const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
                     }}
                     loading="lazy"
                   />
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -118,12 +121,9 @@ const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
           {logos.map((logo) => {
             const scale = logo.scale || sizeOverrides[logo.alt] || 1;
             return (
-              <motion.div
+              <div
                 key={logo.alt}
-                className="rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all hover:border-orange-500/40 hover:bg-white/10 w-full"
-                variants={logoVariants}
-                whileHover={{ y: -8, scale: 1.05 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="sponsor-logo-item opacity-0 rounded-xl border border-white/15 bg-white/5 p-3 sm:p-4 flex items-center justify-center transition-all duration-300 hover:border-orange-500/40 hover:bg-white/10 w-full hover:-translate-y-2 hover:scale-[1.03]"
               >
                 <img
                   src={logo.src}
@@ -138,12 +138,12 @@ const SponsorsStrip = ({ heading, note, logos = [], sizeOverrides = {} }) => {
                   }}
                   loading="lazy"
                 />
-              </motion.div>
+              </div>
             );
           })}
         </div>
       )}
-    </motion.section>
+    </section>
   );
 };
 
