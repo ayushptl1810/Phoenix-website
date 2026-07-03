@@ -1,21 +1,61 @@
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 
-// Derive a stable hue from category without hardcoding
-function getCategoryHue(category) {
-  if (!category) return 30; // fallback to orange-ish hue
-  let hash = 0;
-  for (let i = 0; i < category.length; i++) {
-    hash = (hash << 5) - hash + category.charCodeAt(i);
-    hash |= 0;
+const getCategoryStyles = (category) => {
+  const cat = category?.toLowerCase() || "";
+  if (cat.includes("foundation")) {
+    return { 
+      bg: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400", 
+      glow: "rgba(6, 182, 212, 0.15)",
+      hue: 195 
+    };
   }
-  return Math.abs(hash) % 360;
-}
+  if (cat.includes("national")) {
+    return { 
+      bg: "bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-400", 
+      glow: "rgba(217, 70, 239, 0.15)",
+      hue: 295 
+    };
+  }
+  if (cat.includes("global")) {
+    return { 
+      bg: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400", 
+      glow: "rgba(16, 185, 129, 0.15)",
+      hue: 150 
+    };
+  }
+  if (cat.includes("racing")) {
+    return { 
+      bg: "bg-amber-500/10 border-amber-500/20 text-amber-400", 
+      glow: "rgba(245, 158, 11, 0.15)",
+      hue: 38 
+    };
+  }
+  if (cat.includes("innovation")) {
+    return { 
+      bg: "bg-violet-500/10 border-violet-500/20 text-violet-400", 
+      glow: "rgba(139, 92, 246, 0.15)",
+      hue: 265 
+    };
+  }
+  if (cat.includes("design")) {
+    return { 
+      bg: "bg-rose-500/10 border-rose-500/20 text-rose-400", 
+      glow: "rgba(244, 63, 94, 0.15)",
+      hue: 345 
+    };
+  }
+  return { 
+    bg: "bg-orange-500/10 border-orange-500/20 text-[#ff8c00]", 
+    glow: "rgba(255, 140, 0, 0.15)",
+    hue: 30 
+  };
+};
 
 const TimelineCard = ({ item, index }) => {
   const cardRef = useRef(null);
-  const [expanded, setExpanded] = useState(false);
-  const hue = getCategoryHue(item.category);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+  const catStyle = getCategoryStyles(item.category);
 
   const onMove = (e) => {
     const el = cardRef.current;
@@ -23,126 +63,85 @@ const TimelineCard = ({ item, index }) => {
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    setCoords({ x, y });
     const px = (x / rect.width) * 2 - 1; // -1..1
     const py = (y / rect.height) * 2 - 1;
-    const rotateX = -(py * 3);
-    const rotateY = px * 3;
-    el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+    const rotateX = -(py * 2.5);
+    const rotateY = px * 2.5;
+    el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.008)`;
+  };
+
+  const onEnter = () => {
+    setHovered(true);
   };
 
   const onLeave = () => {
+    setHovered(false);
     const el = cardRef.current;
     if (!el) return;
-    el.style.transform =
-      "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)";
+    el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)";
   };
 
+  // Title parsing logic
+  const titleParts = item.title.split(" - ");
+  const displayTitle = titleParts[0];
+  const displayAward = titleParts[1] || "";
+
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      initial={{ opacity: 0, y: 12, scale: 0.98 }}
-      {...(index === 0
-        ? { animate: { opacity: 1, y: 0, scale: 1 } }
-        : {
-            whileInView: { opacity: 1, y: 0, scale: 1 },
-            viewport: { once: true, amount: 0.3 },
-          })}
-      transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.25) }}
+      onMouseEnter={onEnter}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      whileHover={{ y: -4 }}
-      className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-orange-500/60 transition-all hover:shadow-2xl hover:shadow-orange-500/30 min-h-48 sm:min-h-56 md:min-h-64 p-3 sm:p-4 w-full"
+      className="achievement-card-item group relative overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 w-full opacity-0"
+      style={{
+        background: hovered 
+          ? `radial-gradient(350px circle at ${coords.x}px ${coords.y}px, ${catStyle.glow}, transparent 80%), rgba(10, 10, 10, 0.7)`
+          : "rgba(10, 10, 10, 0.4)",
+        borderColor: hovered ? `hsla(${catStyle.hue}, 70%, 50%, 0.35)` : "rgba(255, 255, 255, 0.06)",
+        boxShadow: hovered ? `0 0 30px hsla(${catStyle.hue}, 90%, 60%, 0.04)` : "none",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)"
+      }}
     >
-      {/* Subtle top highlight for depth */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-white/5 to-transparent" />
-      {/* Left accent bar */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-[3px]"
-        style={{
-          background: `linear-gradient(180deg, hsla(${hue},90%,60%,0.9), hsla(${
-            (hue + 25) % 360
-          },90%,60%,0.9))`,
-        }}
-      />
-
-      {/* Shine sweep */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -inset-x-24 -inset-y-10 rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 p-4 sm:p-6 md:p-7">
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-5 mb-3 sm:mb-4">
-          <div>
-            <div className="font-display text-lg sm:text-xl md:text-2xl font-bold text-white leading-snug">
-              {item.title}
-            </div>
-            <div className="ui-text text-xs sm:text-xs md:text-sm text-neutral-400 mt-0.5">
-              {item.date}
+      {/* Content wrapper */}
+      <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full min-h-[180px] sm:min-h-[200px]">
+        <div>
+          {/* Metadata Top Row */}
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <span
+              className={`font-mono text-[9px] sm:text-[10px] tracking-widest uppercase px-2.5 py-1 border rounded-full ${catStyle.bg}`}
+            >
+              {item.category}
+            </span>
+            
+            {/* Status Indicator */}
+            <div className="flex items-center gap-1.5 font-mono text-[9px] sm:text-[10px] text-neutral-500 uppercase tracking-widest">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
+              {item.status || "Completed"}
             </div>
           </div>
-        </div>
-        <div className="mb-3 flex items-center gap-2 ui-text">
-          <span
-            className="ui-text inline-block text-[9px] sm:text-[10px] md:text-xs tracking-wide px-2 sm:px-2.5 py-0.5 rounded-full text-white"
-            style={{
-              background: `linear-gradient(90deg, hsla(${hue},90%,50%,0.9), hsla(${
-                (hue + 30) % 360
-              },90%,55%,0.9))`,
-            }}
-          >
-            {item.category}
-          </span>
-          {item.status && (
-            <span className="ui-text inline-block text-[9px] sm:text-[10px] md:text-xs tracking-wide px-2 sm:px-2.5 py-0.5 rounded-full border border-neutral-700 text-neutral-300">
-              {item.status}
-            </span>
-          )}
-        </div>
-        <p className="font-body text-sm sm:text-[15px] md:text-base text-neutral-200 leading-6 sm:leading-7">
-          {item.description}
-        </p>
 
-        <AnimatePresence initial={false}>
-          {expanded && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-neutral-700"
-            >
-              <div className="ui-text text-xs text-neutral-300 flex flex-wrap gap-2 sm:gap-4">
-                {item.category && (
-                  <span className="inline-flex items-center gap-1 sm:gap-2">
-                    <span
-                      className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full"
-                      style={{ backgroundColor: `hsl(${hue},90%,55%)` }}
-                    />
-                    Category:{" "}
-                    <span className="font-semibold">{item.category}</span>
-                  </span>
-                )}
-                {item.status && (
-                  <span className="inline-flex items-center gap-1 sm:gap-2">
-                    <span
-                      className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full"
-                      style={{
-                        backgroundColor: `hsl(${(hue + 25) % 360},90%,55%)`,
-                      }}
-                    />
-                    Status: <span className="font-semibold">{item.status}</span>
-                  </span>
-                )}
+          {/* Title & Rank */}
+          <div className="mb-4">
+            <h4 className="font-display text-lg sm:text-xl md:text-2xl font-bold text-white leading-snug">
+              {displayTitle}
+            </h4>
+            {displayAward && (
+              <div className="font-mono text-[11px] sm:text-xs text-[#ff8c00] font-black uppercase tracking-wider flex items-center gap-1.5 mt-2 bg-[#ff8c00]/[0.06] border border-[#ff8c00]/25 rounded-md px-2.5 py-1 w-fit shadow-[0_0_10px_rgba(255,140,0,0.05)]">
+                <span className="text-[10px] text-[#ff8c00]">✦</span>
+                {displayAward}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            )}
+          </div>
 
-      {/* Subtle neon edge on hover */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-hover:ring-1 ring-orange-400/50 transition-all" />
-    </motion.div>
+          {/* Description */}
+          <p className="font-body text-[13.5px] sm:text-[14.5px] text-neutral-400 leading-relaxed border-l border-white/[0.04] pl-4">
+            {item.description}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

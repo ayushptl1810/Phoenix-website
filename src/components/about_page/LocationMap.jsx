@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
 import "leaflet/dist/leaflet.css";
@@ -21,80 +22,137 @@ const LocationMap = () => {
   const address =
     "4R5Q+235, Navpada, Suvarna Nagar, Juhu, Mumbai, Maharashtra 400056";
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
-
-  const leftCardRef = useRef(null);
+  const containerRef = useRef(null);
+  const mapCardRef = useRef(null);
+  const addressInfoRef = useRef(null);
   const [mapHeight, setMapHeight] = useState(320);
 
   useEffect(() => {
     const updateHeights = () => {
-      const leftHeight = leftCardRef.current?.offsetHeight;
+      const leftHeight = addressInfoRef.current?.offsetHeight;
       if (leftHeight && Number.isFinite(leftHeight)) {
         setMapHeight(leftHeight);
       }
     };
-    updateHeights();
+    // Ensure height is evaluated after the initial paint cycle
+    const frame = requestAnimationFrame(updateHeights);
     window.addEventListener("resize", updateHeights);
-    return () => window.removeEventListener("resize", updateHeights);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateHeights);
+    };
   }, []);
 
-  return (
-    <section className="py-12 sm:py-20 bg-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
+  useGSAP(
+    () => {
+      // 1. Header scroll trigger
+      gsap.fromTo(
+        ".map-header",
+        { opacity: 0, y: -30 },
+        {
+          opacity: 1,
+          y: 0,
+          scrollTrigger: {
+            trigger: ".map-header",
+            start: "top 95%",
+            end: "top 70%",
+            scrub: 1,
+          },
+        }
+      );
 
-      <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      // 2. Left side card slide in
+      gsap.fromTo(
+        ".map-left-card",
+        { opacity: 0, x: -60 },
+        {
+          opacity: 1,
+          x: 0,
+          scrollTrigger: {
+            trigger: ".map-left-card",
+            start: "top 90%",
+            end: "top 60%",
+            scrub: 1,
+          },
+        }
+      );
+
+      // 3. Right side map card slide in
+      gsap.fromTo(
+        ".map-right-card",
+        { opacity: 0, x: 60 },
+        {
+          opacity: 1,
+          x: 0,
+          scrollTrigger: {
+            trigger: ".map-right-card",
+            start: "top 90%",
+            end: "top 60%",
+            scrub: 1,
+          },
+        }
+      );
+    },
+    { scope: containerRef }
+  );
+
+  const onEnterCard = (refEl) => {
+    gsap.to(refEl, {
+      boxShadow: "0 25px 60px -20px rgba(255, 140, 0, 0.25)",
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  };
+
+  const onLeaveCard = (refEl) => {
+    gsap.to(refEl, {
+      boxShadow: "none",
+      duration: 0.35,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  };
+
+  return (
+    <section ref={containerRef} className="py-12 sm:py-20 bg-black relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black pointer-events-none"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <motion.div
-          className="text-center mb-12 sm:mb-16"
-          variants={itemVariants}
-        >
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
+        <div className="map-header opacity-0 mb-10 sm:mb-14">
+          <h2
+            className="font-display font-bold text-white leading-none tracking-tighter mb-4"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
+          >
             Where to Find Us
           </h2>
-          <p className="font-body text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
+          <p
+            className="font-body text-neutral-400 max-w-lg"
+            style={{
+              fontSize: "clamp(0.9rem, 1.3vw, 1.1rem)",
+              lineHeight: 1.65,
+            }}
+          >
             Our workspace at DJ Sanghvi College of Engineering, Mumbai.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
           {/* Address & Contact Info */}
-          <motion.div variants={itemVariants}>
+          <div className="map-left-card opacity-0">
             <div
-              ref={leftCardRef}
-              className="bg-white/5 backdrop-blur-md border border-white/15 rounded-2xl p-6 sm:p-8 flex flex-col"
+              ref={addressInfoRef}
+              className="bg-white/[0.02] backdrop-blur-xl border rounded-2xl p-6 sm:p-8 flex flex-col transition-[border-color] duration-300"
+              style={{ border: "1px solid rgba(255, 140, 0, 0.45)" }}
+              onMouseEnter={() => onEnterCard(addressInfoRef.current)}
+              onMouseLeave={() => onLeaveCard(addressInfoRef.current)}
             >
               <div className="flex items-center gap-3 mb-4 sm:mb-6">
                 <div className="w-10 sm:w-12 h-10 sm:h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
                   <HiLocationMarker className="w-5 sm:w-6 h-5 sm:h-6 text-orange-400" />
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-white leading-tight">
                   DJ Sanghvi College of Engineering
                 </h3>
               </div>
@@ -122,13 +180,19 @@ const LocationMap = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Map */}
-          <motion.div variants={itemVariants}>
+          <div className="map-right-card opacity-0">
             <div
-              className="bg-white/5 backdrop-blur-md border border-white/15 rounded-2xl overflow-hidden flex flex-col"
-              style={{ height: mapHeight }}
+              ref={mapCardRef}
+              className="bg-white/[0.02] backdrop-blur-xl border rounded-2xl overflow-hidden flex flex-col transition-[border-color] duration-300"
+              style={{
+                height: mapHeight,
+                border: "1px solid rgba(255, 140, 0, 0.45)",
+              }}
+              onMouseEnter={() => onEnterCard(mapCardRef.current)}
+              onMouseLeave={() => onLeaveCard(mapCardRef.current)}
             >
               <div className="w-full relative flex-1">
                 <MapContainer
@@ -154,7 +218,7 @@ const LocationMap = () => {
               </div>
 
               {/* Map overlay info */}
-              <div className="p-3 sm:p-4 bg-black/80 backdrop-blur-sm">
+              <div className="p-3 sm:p-4 bg-black/80 backdrop-blur-sm relative z-20">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                   <div>
                     <h4 className="font-ui font-bold text-white text-xs sm:text-sm">
@@ -171,16 +235,16 @@ const LocationMap = () => {
                         "_blank"
                       )
                     }
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-orange-500 hover:bg-orange-600 text-white font-ui font-bold text-xs sm:text-sm rounded-lg transition-colors duration-200"
+                    className="px-4 py-2 border-2 border-[#ff8c00] bg-[#ff8c00] text-black font-ui font-bold text-xs sm:text-sm rounded-lg hover:brightness-110 hover:shadow-lg hover:shadow-orange-500/20 hover:scale-105 active:scale-95 cursor-pointer transition-all duration-300"
                   >
                     Open in Maps
                   </button>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
