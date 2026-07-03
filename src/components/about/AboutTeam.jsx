@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -44,22 +43,6 @@ const AboutTeam = () => {
           y: 0,
           scrollTrigger: {
             trigger: ".about-team-header",
-            start: "top 95%",
-            end: "top 65%",
-            scrub: 1,
-          },
-        },
-      );
-
-      // 2. CTA button scale/fade
-      gsap.fromTo(
-        ".about-team-cta",
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          scrollTrigger: {
-            trigger: ".about-team-cta",
             start: "top 95%",
             end: "top 65%",
             scrub: 1,

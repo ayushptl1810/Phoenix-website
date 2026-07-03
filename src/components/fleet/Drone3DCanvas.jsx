@@ -238,6 +238,7 @@ const DroneModel = ({
   // Resolve hover part names
   const handlePointerOver = (e) => {
     e.stopPropagation();
+    const droneRoot = getDroneRootGroup(scene);
     const category = getCategoryForMesh(e.object, droneRoot, drone);
     if (category) {
       setHoveredPart(category);
