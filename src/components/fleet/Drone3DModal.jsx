@@ -60,9 +60,9 @@ const Drone3DModal = ({ isOpen, onClose, drone }) => {
 
   if (!isOpen) return null;
 
-  // Dynamically resolve the local URL for the 3D model asset
+  // Dynamically resolve the local URL for the 3D model asset from the public directory
   const modelUrl = drone.modelFileName
-    ? new URL(`../../assets/3d-drones/${drone.modelFileName}`, import.meta.url).href
+    ? `${import.meta.env.BASE_URL}3d-drones/${drone.modelFileName}`
     : null;
 
   // Active category text to display in side details panel
